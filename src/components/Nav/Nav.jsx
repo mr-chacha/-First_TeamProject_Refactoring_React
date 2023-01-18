@@ -7,6 +7,9 @@ function Nav() {
   const gotoLogin = () => {
     navigate("Login");
   };
+  const gotoSignup = () => {
+    navigate("Signup");
+  };
   return (
     <NavStyle>
       <Login>
@@ -18,6 +21,7 @@ function Nav() {
         </form>
       </Login>
       <button onClick={gotoLogin}>로그인</button>
+      <button onClick={gotoSignup}>회원가입</button>
       <button>마이페이지</button>
     </NavStyle>
   );
