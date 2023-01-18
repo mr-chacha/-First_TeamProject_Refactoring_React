@@ -5,7 +5,7 @@ const SignUpLayout = styled.div`
   height: 1080px;
 `;
 const SignUpBox = styled.div`
-  width: 400px;
+  width: 450px;
   height: 400px;
   border: 3px solid green;
 
@@ -22,6 +22,10 @@ const SignUpBox = styled.div`
   transform: translate(-50%, -50%);
 `;
 const SinupTitle = styled.h1``;
+const Signupcontainer = styled.div`
+  width: 400px;
+  margin-left: 200px;
+`;
 const SinupForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -37,4 +41,19 @@ const BtnBox = styled.div`
   margin-top: 5px;
   display: flex;
 `;
-export { SignUpBox, SignUpLayout, SinupTitle, SinupForm, InputBox, BtnBox };
+const CheckMsg = styled.p`
+  color: #f03e3e;
+  margin: 0px;
+  display: none;
+  font-size: 10px;
+`;
+export {
+  SignUpBox,
+  SignUpLayout,
+  SinupTitle,
+  SinupForm,
+  InputBox,
+  BtnBox,
+  CheckMsg,
+  Signupcontainer,
+};

@@ -4,6 +4,9 @@ const Headerstyle = styled.h1`
   margin: 0;
   display: flex;
   justify-content: center;
-  height: 100%;
+  align-items: center;
+  width: 100%;
+  height: 15%;
+  background-color: white;
 `;
 export { Headerstyle };
