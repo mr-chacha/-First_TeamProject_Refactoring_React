@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+
 import {
   SignUpBox,
   SignUpLayout,
   SinupTitle,
-  SinupForm,
   InputBox,
   BtnBox,
   CheckMsg,
@@ -53,7 +52,7 @@ function SignupPage() {
   // 아이디 유효성 검사
   const UserIdHandler = (e) => {
     setUserId(userId_input.current.value);
-    // a부터z까지 0부터9까지 최소4 글자 최대 12글자까지
+    //아이디 이메일 유효성검사
     const idRegExp =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     // 유효성 안내글
