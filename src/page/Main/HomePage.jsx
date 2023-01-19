@@ -1,18 +1,20 @@
 import React from "react";
-import { Mainstyle } from "./style";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import Nav from "../../components/Nav/Nav";
+import Main from "../../components/Main/Main";
+import { HomePageLayout } from "./style";
+import { adf } from "./style";
 
-function Main() {
+function HomePage() {
   return (
-    <div>
+    <HomePageLayout>
       <Header />
       <Nav />
-      <Mainstyle>Main</Mainstyle>
+      <Main />
       <Footer />
-    </div>
+    </HomePageLayout>
   );
 }
 
-export default Main;
+export default HomePage;
