@@ -10,8 +10,14 @@ import {
   CheckMsg,
   Signupcontainer,
 } from "./style";
+
+//파이어베이스 import
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { db } from "../../FifeBase";
 import { authService } from "../../FifeBase";
+import { Firestore } from "firebase/firestore";
+import { async } from "@firebase/util";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -87,7 +93,7 @@ function SignupPage() {
   };
 
   //회원가입 버튼
-  const addUser = (event) => {
+  const addUser = async (event) => {
     event.preventDefault();
     if (!userNicName) {
       alert("닉네임을 입력하세요");
@@ -101,19 +107,24 @@ function SignupPage() {
     } else if (SignupId && SignupPw === false) {
       alert("아이디 또는 비밀번호를 다시 입력해주세요");
     } else if (SignupId && SignupPw === true) {
-      const auth = getAuth();
+      //파이어베이스 회원가입
+      const generateId = uuidv4();
+      const usersRef = collection(db, "users");
       createUserWithEmailAndPassword(authService, userId, userPw)
-        .then((userCredential) => {
-          event.preventDefault();
-          const user = userCredential.user;
+        .then(() => {
+          alert("회원가입 되었습니다");
+          setDoc(doc(usersRef), {
+            userNicName: userNicName,
+            id: generateId,
+            userId: userId,
+          });
+          gotoLogin();
+          return;
         })
-        .catch((error) => {
-          event.preventDefault();
-          const errorCode = error.code;
-          const errorMessage = error.message;
+        .catch(() => {
+          alert("이미있는계정임");
+          return;
         });
-      alert("회원가입 되었습니다");
-      gotoLogin();
       return;
     }
   };
@@ -135,6 +146,7 @@ function SignupPage() {
             <InputBox>
               <h4>아이디 : </h4>
               <input
+                type={"email"}
                 value={userId}
                 onChange={UserIdHandler}
                 ref={userId_input}
@@ -144,6 +156,7 @@ function SignupPage() {
             <InputBox>
               <h4>비밀번호 : </h4>
               <input
+                type={"password"}
                 value={userPw}
                 onChange={UserPwHandler}
                 ref={userPw_input}
