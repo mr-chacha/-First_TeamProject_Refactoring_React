@@ -11,20 +11,16 @@ import {
   CheckMsg,
   Signupcontainer,
 } from "./style";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { authService } from "../../FifeBase";
+
 function SignupPage() {
   const navigate = useNavigate();
-  const [userNicName, setuserNicName] = useState();
-  const [userId, setUserId] = useState();
-  const [userPw, setUserPw] = useState();
-  const [loginId, setLoginId] = useState(false);
-  const [loginPw, setLoginPw] = useState(false);
-  const newUser = {
-    id: uuidv4(),
-    userNicName,
-    userId,
-    userPw,
-  };
-
+  const [userNicName, setuserNicName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [userPw, setUserPw] = useState("");
+  const [SignupId, setSignupId] = useState(false);
+  const [SignupPw, setSignupPw] = useState(false);
   const userNicName_input = useRef();
   const userId_input = useRef();
   const userPw_input = useRef();
@@ -58,17 +54,17 @@ function SignupPage() {
   const UserIdHandler = (e) => {
     setUserId(userId_input.current.value);
     // a부터z까지 0부터9까지 최소4 글자 최대 12글자까지
-    const idRegExp = /^[a-z0-9]{4,12}$/;
+    const idRegExp =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     // 유효성 안내글
     if (!idRegExp.test(userId)) {
-      userId_msg.current.innerText =
-        "4~12자의 영문 소문자, 숫자로 작성 가능합니다.";
+      userId_msg.current.innerText = "이메일 형식으로 작성해주세요";
       userId_msg.current.style = "display:block";
       return false;
     } else {
       userId_msg.current.innerText = "사용가능한 아이디 입니다.";
       userId_msg.current.style = "display:block; color:green";
-      setLoginId(true);
+      setSignupId(true);
       return;
     }
   };
@@ -86,10 +82,11 @@ function SignupPage() {
     } else {
       userPw_msg.current.innerText = "올바른 비밀번호 형식입니다.";
       userPw_msg.current.style = "display:block; color:green";
-      setLoginPw(true);
+      setSignupPw(true);
       return true;
     }
   };
+
   //회원가입 버튼
   const addUser = (event) => {
     event.preventDefault();
@@ -102,11 +99,23 @@ function SignupPage() {
     } else if (!userPw) {
       alert("비밀번호를 입력하세요");
       userPw_input.current.focus();
-    } else if (loginId && loginPw === false) {
+    } else if (SignupId && SignupPw === false) {
       alert("아이디 또는 비밀번호를 다시 입력해주세요");
-    } else if (loginId && loginPw === true) {
+    } else if (SignupId && SignupPw === true) {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(authService, userId, userPw)
+        .then((userCredential) => {
+          event.preventDefault();
+          const user = userCredential.user;
+        })
+        .catch((error) => {
+          event.preventDefault();
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
       alert("회원가입 되었습니다");
       gotoLogin();
+      return;
     }
   };
 
@@ -143,12 +152,12 @@ function SignupPage() {
             </InputBox>
             <CheckMsg ref={userPw_msg} />
             <BtnBox>
-              <button onClick={addUser}>확인</button>
-              <button onClick={gotoLogin}>로그인</button>
-              <button onClick={gotoBack}>뒤로가기</button>
+              <button>확인</button>
             </BtnBox>
           </Signupcontainer>
         </form>
+        <button onClick={gotoLogin}>로그인</button>
+        <button onClick={gotoBack}>뒤로</button>
       </SignUpBox>
     </SignUpLayout>
   );
