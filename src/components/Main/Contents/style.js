@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
-const MainBox = styled.div`
+const ContentsLayout = styled.div`
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+`;
+const ContentsBtn = styled.button``;
+const ContetnsInput = styled.input``;
+const ContentsBox = styled.div`
   box-shadow: 1px 2px 1px 1px #bdbdbd;
   padding: 20px;
   margin-top: 20px;
@@ -8,7 +16,7 @@ const MainBox = styled.div`
   border-radius: 15px;
   background-color: white;
   width: 50%;
-  height: 100px;
+  height: 80px;
 `;
 
-export { MainBox };
+export { ContentsBox, ContentsLayout, ContentsBtn, ContetnsInput };

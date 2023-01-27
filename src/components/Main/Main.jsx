@@ -11,6 +11,7 @@ import {
 import { uuidv4 } from "@firebase/util";
 import { authService, db } from "../../FifeBase";
 import { useRef } from "react";
+
 import {
   collection,
   doc,
@@ -75,7 +76,6 @@ function Main() {
     alert("글이 등록됐습니다.");
     return;
   };
-  console.log(contents[0].content);
   // const name = authService.currentUser.displayName;
   return (
     <Mainlayout>
