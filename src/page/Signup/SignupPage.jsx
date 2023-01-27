@@ -13,7 +13,11 @@ import {
 } from "./style";
 
 //파이어베이스 import
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../FifeBase";
 import { authService } from "../../FifeBase";
@@ -25,6 +29,7 @@ function SignupPage() {
   const [userNicName, setuserNicName] = useState("");
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
+  const [displayName, setdisplayName] = useState("");
   const [SignupId, setSignupId] = useState(false);
   const [SignupPw, setSignupPw] = useState(false);
   const userNicName_input = useRef();
@@ -44,7 +49,7 @@ function SignupPage() {
   }, [userPw]);
 
   const userNichNameChange = (e) => {
-    setuserNicName(e.target.value);
+    setdisplayName(e.target.value);
   };
 
   // 메인화면 이동버튼
@@ -96,7 +101,7 @@ function SignupPage() {
   //회원가입 버튼
   const addUser = async (event) => {
     event.preventDefault();
-    if (!userNicName) {
+    if (!displayName) {
       alert("닉네임을 입력하세요");
       userNicName_input.current.focus();
     } else if (!userId) {
@@ -111,11 +116,15 @@ function SignupPage() {
       //파이어베이스 회원가입
       const generateId = uuidv4();
       const usersRef = collection(db, "users");
-      createUserWithEmailAndPassword(authService, userId, userPw)
-        .then(() => {
+      createUserWithEmailAndPassword(authService, userId, userPw, displayName)
+        .then((result) => {
+          //이걸해야 authService에 displayName가 나옴
+          updateProfile(result.user, {
+            displayName: displayName,
+          });
           alert("회원가입 되었습니다");
           setDoc(doc(usersRef), {
-            userNicName: userNicName,
+            displayname: displayName,
             id: generateId,
             userId: userId,
           });
@@ -139,7 +148,7 @@ function SignupPage() {
             <InputBox>
               <h4>닉네임 : </h4>
               <input
-                value={userNicName}
+                value={displayName}
                 onChange={userNichNameChange}
                 ref={userNicName_input}
               />

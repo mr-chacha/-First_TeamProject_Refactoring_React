@@ -10,11 +10,11 @@ import {
 } from "./style";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import app from "../../FifeBase";
+import { authService } from "../../FifeBase";
 
 function Loginpage() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
-
   const userId_input = useRef();
   const userPw_input = useRef();
 
@@ -29,6 +29,7 @@ function Loginpage() {
     navigate("/Signup");
   };
 
+  //로그인 유저 핸들러
   const LoginUser = () => {
     if (!userId) {
       alert("아이디를 입력하세요");
@@ -36,15 +37,15 @@ function Loginpage() {
       alert("비밀번호를 입력하세요");
     } else {
       alert("로그인 되었습니다");
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, userId, userPw)
-        .then((userCredential) => {
-          alert("로그인완료");
+      signInWithEmailAndPassword(authService, userId, userPw)
+        .then(() => {
           gotoBack();
+          return;
         })
-        .catch((err) => {
-          alert("로그인실패");
+        .catch(() => {
+          return;
         });
+      gotoBack();
     }
   };
 
@@ -79,7 +80,7 @@ function Loginpage() {
               onChange={UserPwHandler}
               ref={userPw_input}
             />
-            <CheckMsg />
+            <CheckMsg ref={userPw_msg} />
           </InputBox>
           <BtnBox>
             <button>확인</button>

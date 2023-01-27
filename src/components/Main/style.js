@@ -40,4 +40,6 @@ const Inputs = styled.input`
   width: 100%;
   height: 80%;
 `;
-export { Mainlayout, MainTitle, MainBox, InputBox, Inputs };
+
+const InPutBtn = styled.button``;
+export { Mainlayout, MainTitle, MainBox, InputBox, Inputs, InPutBtn };
