@@ -6,7 +6,7 @@ import app from "./FifeBase";
 
 function App() {
   return <Router />;
-  console.log(app);
+ 
 }
 
 export default App;
