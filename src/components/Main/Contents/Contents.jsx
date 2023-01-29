@@ -20,7 +20,6 @@ export default function Contents({ item }) {
         <ContentsBtn onClick={() => DeleteContent(item.id)}>삭제</ContentsBtn>
         <ContentsBtn>수정</ContentsBtn>
       </ContentsBox>
-      ;
     </ContentsLayout>
   );
 }
