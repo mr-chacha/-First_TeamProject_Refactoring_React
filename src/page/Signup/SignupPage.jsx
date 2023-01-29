@@ -10,22 +10,15 @@ import {
   CheckMsg,
   Signupcontainer,
 } from "./style";
-
+import { uuidv4 } from "@firebase/util";
 //파이어베이스 import
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../FifeBase";
 import { authService } from "../../FifeBase";
-import { Firestore } from "firebase/firestore";
-import { async } from "@firebase/util";
 
 function SignupPage() {
   const navigate = useNavigate();
-  const [userNicName, setuserNicName] = useState("");
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [displayName, setdisplayName] = useState("");

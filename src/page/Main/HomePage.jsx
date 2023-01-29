@@ -9,8 +9,6 @@ import { adf } from "./style";
 function HomePage() {
   return (
     <HomePageLayout>
-      <Header />
-      <Nav />
       <Main />
       <Footer />
     </HomePageLayout>
