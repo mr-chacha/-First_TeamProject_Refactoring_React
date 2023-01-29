@@ -1,9 +1,10 @@
+import { signOut } from "firebase/auth";
 import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../../FifeBase";
-import { NavStyle, Login } from "./style";
+import { NavStyle } from "./style";
 
 function Nav() {
   const login = useRef();
@@ -37,6 +38,18 @@ function Nav() {
   const gotoMyPage = () => {
     navigate("Mypage");
   };
+  // 로그아웃
+  const handleLogout = () => {
+    signOut(authService)
+      .then(() => {
+        alert("로그아웃 되었습니다.");
+        //뒤로가기 안되게
+        navigate("/", { replace: true });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <NavStyle>
       <button ref={login} onClick={gotoLogin}>
@@ -45,7 +58,9 @@ function Nav() {
       <button ref={singuP} onClick={gotoSignup}>
         회원가입
       </button>
-      <button ref={logout}>로그아웃</button>
+      <button ref={logout} onClick={handleLogout}>
+        로그아웃
+      </button>
       <button ref={myPage} onClick={gotoMyPage}>
         마이페이지
       </button>

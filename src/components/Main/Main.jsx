@@ -63,25 +63,42 @@ function Main() {
     return;
   };
 
-  const name = authService.currentUser.displayName;
-  console.log(name);
   return (
-    <Mainlayout>
-      닉네임 : {authService.currentUser.displayName}
-      <InputBox>
-        작성자 : {name}
-        <Inputs
-          placeholder="글을 작성하세요"
-          value={content}
-          onChange={contentChange}
-          ref={contentRef}
-        />
-        <InPutBtn onClick={addContet}>등록</InPutBtn>
-      </InputBox>
-      {contents.map((item) => {
-        return <Contents item={item} />;
-      })}
-    </Mainlayout>
+    <>
+      {authService.currentUser ? (
+        <Mainlayout>
+          닉네임 : {authService.currentUser.displayName}
+          <InputBox>
+            작성자 : {authService.currentUser.displayName}
+            <Inputs
+              placeholder="글을 작성하세요"
+              value={content}
+              onChange={contentChange}
+              ref={contentRef}
+            />
+            <InPutBtn onClick={addContet}>등록</InPutBtn>
+          </InputBox>
+          {contents.map((item) => {
+            return <Contents item={item} />;
+          })}
+        </Mainlayout>
+      ) : (
+        <Mainlayout>
+          <InputBox>
+            <Inputs
+              placeholder="글을 작성하세요"
+              value={content}
+              onChange={contentChange}
+              ref={contentRef}
+            />
+            <InPutBtn onClick={addContet}>등록</InPutBtn>
+          </InputBox>
+          {contents.map((item) => {
+            return <Contents item={item} />;
+          })}
+        </Mainlayout>
+      )}
+    </>
   );
 }
 
