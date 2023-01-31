@@ -9,4 +9,5 @@ const ProfileImg = styled.img`
   border-radius: 50%;
   cursor: pointer;
 `;
+
 export { ProfileImg };
