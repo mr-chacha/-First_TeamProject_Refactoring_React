@@ -50,13 +50,13 @@ export default function Contents({ item }) {
 
   //새로고침해도 닉네임 유지 방법 1 => 새로고침 할 때 깜빡임 없어서 선택
   //닉네임 유지용
-  let userObj = sessionStorage.getItem(
-    `firebase:authUser:${apiKeys}:[DEFAULT]`
-  );
-  let userObjParsed;
-  if (userObj) {
-    userObjParsed = JSON.parse(userObj);
-  }
+  // let userObj = sessionStorage.getItem(
+  //   `firebase:authUser:${apiKeys}:[DEFAULT]`
+  // );
+  // let userObjParsed;
+  // if (userObj) {
+  //   userObjParsed = JSON.parse(userObj);
+  // }
 
   return (
     <>
