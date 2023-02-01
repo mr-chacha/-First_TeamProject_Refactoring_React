@@ -8,7 +8,12 @@ import {
   BtnBox,
   CheckMsg,
 } from "./style";
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
 import app from "../../FifeBase";
 import { authService } from "../../FifeBase";
 
@@ -37,6 +42,7 @@ function Loginpage() {
       alert("비밀번호를 입력하세요");
     } else {
       alert("로그인 되었습니다");
+      setPersistence(authService, browserSessionPersistence);
       signInWithEmailAndPassword(authService, userId, userPw)
         .then(() => {
           gotoBack();

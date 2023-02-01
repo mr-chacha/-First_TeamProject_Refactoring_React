@@ -5,8 +5,8 @@ import {
   ContentsBtn,
   ContetnsInput,
 } from "./style";
-import { deleteDoc, doc, Firestore, updateDoc } from "firebase/firestore";
-import { authService, db } from "../../../FifeBase";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { apiKeys, authService, db } from "../../../FifeBase";
 import { useRef } from "react";
 import { useState } from "react";
 
@@ -19,6 +19,7 @@ export default function Contents({ item }) {
   const DeleteContent = async (Id) => {
     await deleteDoc(doc(db, "reviews", Id));
   };
+
   // 수정 onChange
   const onChangeContent = (event) => {
     event.preventDefault();
@@ -39,7 +40,6 @@ export default function Contents({ item }) {
       await updateDoc(contentsRef, {
         content: contents,
       });
-
       sucBtnRef.current.style.display = "none";
       inputRef.current.style.display = "none";
       editBtnRef.current.style.display = "block";
@@ -47,39 +47,56 @@ export default function Contents({ item }) {
       console.log(err);
     }
   };
+
+  //새로고침해도 닉네임 유지 방법 1 => 새로고침 할 때 깜빡임 없어서 선택
+  //닉네임 유지용
+  // let userObj = sessionStorage.getItem(
+  //   `firebase:authUser:${apiKeys}:[DEFAULT]`
+  // );
+  // let userObjParsed;
+  // if (userObj) {
+  //   userObjParsed = JSON.parse(userObj);
+  // }
+
   return (
-    <ContentsLayout>
-      <ContentsBox>
-        작성자 : {item.displayName}
-        <br></br>
-        {item.content}
-        <br></br>
-        <ContetnsInput
-          ref={inputRef}
-          style={{ display: "none" }}
-          value={contents}
-          onChange={onChangeContent}
-        />
-        {item.authId === authService.currentUser?.uid ? (
-          <div>
-            <ContentsBtn ref={editBtnRef} onClick={contentEditBtn}>
-              수정
-            </ContentsBtn>
-            <ContentsBtn
-              style={{ display: "none" }}
-              ref={sucBtnRef}
-              onClick={contentSuccessBtn}
-            >
-              완료
-            </ContentsBtn>
-            <ContentsBtn onClick={() => DeleteContent(item.id)}>
-              삭제
-            </ContentsBtn>
-          </div>
-        ) : (
-          ""
-        )}
-      </ContentsBox>
-    </ContentsLayout>
+    <>
+      <ContentsLayout>
+        <ContentsBox>
+          {/* <img
+            src={authService.currentUser.photoURL}
+            style={{ width: "40px", height: "40px", borderRadius: "50" }}
+          /> */}
+          작성자 : {item.displayName}
+          <br></br>
+          {item.content}
+          <br></br>
+          <ContetnsInput
+            ref={inputRef}
+            style={{ display: "none" }}
+            value={contents}
+            onChange={onChangeContent}
+          />
+          {item.authId === authService.currentUser?.uid ? (
+            <div>
+              <ContentsBtn ref={editBtnRef} onClick={contentEditBtn}>
+                수정
+              </ContentsBtn>
+              <ContentsBtn
+                style={{ display: "none" }}
+                ref={sucBtnRef}
+                onClick={contentSuccessBtn}
+              >
+                완료
+              </ContentsBtn>
+              <ContentsBtn onClick={() => DeleteContent(item.id)}>
+                삭제
+              </ContentsBtn>
+            </div>
+          ) : (
+            ""
+          )}
+        </ContentsBox>
+      </ContentsLayout>
+    </>
   );
 }
