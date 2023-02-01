@@ -1,15 +1,30 @@
 import React from "react";
 import { useState } from "react";
-import { Mainlayout, InputBox, Inputs, InPutBtn } from "./style";
+import {
+  Mainlayout,
+  InputBox,
+  Inputs,
+  InPutBtn,
+  ContentsBox,
+  ProfileImg,
+} from "./style";
 import { uuidv4 } from "@firebase/util";
 import { db } from "../../FireBase";
 import { useRef } from "react";
 import { authService } from "../../FireBase";
-import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+} from "firebase/firestore";
 import { useEffect } from "react";
 import Contents from "./Contents/Contents";
-
+import { formatDate } from "../../utils/Data";
 function Main() {
+  const date = new Date().toString().slice(0, 25);
   //content 추가하기
   const contentRef = useRef();
   const [content, setContent] = useState("");
@@ -26,12 +41,13 @@ function Main() {
   };
   //content 파이어베이스에서 가져오기
   useEffect(() => {
-    const q = collection(db, "reviews");
+    const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot: any) => {
       const contents = snapshot.docs.map((doc: any) => {
         const content = {
           id: doc.id,
           ...doc.data(),
+          createdAt: formatDate(doc.data().createdAt),
         };
         return content;
       });
@@ -58,21 +74,25 @@ function Main() {
       displayName: authService.currentUser.displayName,
       authId,
       content,
+      createdAt: date,
     });
     setContent("");
     alert("글이 등록됐습니다.");
     return;
   };
 
+  const ProfilPhoto = authService.currentUser?.photoURL;
+  //input placeholder
+  const hello = `${authService.currentUser?.displayName} 님안녕하세요`;
   return (
     <>
       {authService.currentUser ? (
         <Mainlayout>
           닉네임 : {authService.currentUser.displayName}
           <InputBox>
-            작성자 : {authService.currentUser.displayName}
+            <ProfileImg src={ProfilPhoto} />
             <Inputs
-              placeholder="글을 작성하세요"
+              placeholder={hello}
               value={content}
               onChange={contentChange}
               ref={contentRef}
@@ -94,9 +114,11 @@ function Main() {
             />
             <InPutBtn onClick={addContet}>등록</InPutBtn>
           </InputBox>
-          {contents.map((item) => {
-            return <Contents item={item} />;
-          })}
+          <ContentsBox>
+            {contents.map((item) => {
+              return <Contents item={item} />;
+            })}
+          </ContentsBox>
         </Mainlayout>
       )}
     </>

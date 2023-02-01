@@ -34,12 +34,38 @@ const InputBox = styled.div`
   background-color: white;
   width: 50%;
   height: 100px;
+  display: flex;
 `;
 
 const Inputs = styled.input`
-  width: 100%;
+  width: 90%;
   height: 80%;
+  background-color: #f7f7f7;
+  border: none;
+  border-radius: 50px;
+  margin: 0px 20px 0px 20px;
 `;
 
 const InPutBtn = styled.button``;
-export { Mainlayout, MainTitle, MainBox, InputBox, Inputs, InPutBtn };
+const ContentsBox = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const ProfileImg = styled.img`
+  position: relative;
+  margin: auto;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d3d3d3;
+  border-radius: 50%;
+`;
+export {
+  Mainlayout,
+  MainTitle,
+  MainBox,
+  InputBox,
+  Inputs,
+  InPutBtn,
+  ContentsBox,
+  ProfileImg,
+};

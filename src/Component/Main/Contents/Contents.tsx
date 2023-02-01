@@ -5,6 +5,10 @@ import {
   ContentsBtn,
   ContetnsInput,
   ProfileImg,
+  Title,
+  Contnet,
+  Header,
+  Time,
 } from "./style";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { authService, db } from "../../../FireBase";
@@ -54,14 +58,12 @@ export default function Contents({ item }: any) {
     <>
       <ContentsLayout>
         <ContentsBox>
-          <div>
+          <Header>
             <ProfileImg src={ProfilPhoto} />
-          </div>
-          <div>
-            작성자 : {item.displayName}
-            <br></br>
-            {item.content}
-          </div>
+            <Title>{item.displayName}</Title>
+          </Header>
+          <Contnet>{item.content}</Contnet>
+          <Time> {item.createdAt}</Time>
           <ContetnsInput
             ref={inputRef}
             style={{ display: "none" }}
