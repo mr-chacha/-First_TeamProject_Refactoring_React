@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 const ProfileImg = styled.img`
   position: relative;
   margin: auto;

@@ -2,12 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { Mainlayout, InputBox, Inputs, InPutBtn } from "./style";
 import { uuidv4 } from "@firebase/util";
-import { db } from "../../FifeBase";
+import { db } from "../../FireBase";
 import { useRef } from "react";
-import { authService } from "../../FifeBase";
+import { authService } from "../../FireBase";
 import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 import { useEffect } from "react";
 import Contents from "./Contents/Contents";
+
 function Main() {
   //content 추가하기
   const contentRef = useRef();
@@ -20,14 +21,14 @@ function Main() {
       uuid: "",
     },
   ]);
-  const contentChange = (event) => {
+  const contentChange = (event: any) => {
     setContent(event.target.value);
   };
   //content 파이어베이스에서 가져오기
   useEffect(() => {
     const q = collection(db, "reviews");
-    onSnapshot(q, (snapshot) => {
-      const contents = snapshot.docs.map((doc) => {
+    onSnapshot(q, (snapshot: any) => {
+      const contents = snapshot.docs.map((doc: any) => {
         const content = {
           id: doc.id,
           ...doc.data(),
@@ -39,7 +40,7 @@ function Main() {
   }, []);
 
   // content 파에어베이스에 추가하기
-  const addContet = (event) => {
+  const addContet = (event: any): any => {
     event.preventDefault();
     //로그인 안했으면 추가못함
     if (!authService.currentUser) {
@@ -47,7 +48,7 @@ function Main() {
       return;
     } else if (!content) {
       alert("글을 작성하세요");
-      contentRef.current.focus();
+      //   contentRef.current.focus();
       return;
     }
     //파이어베이스 데이터베이스에 등록한글 넣어놓기
