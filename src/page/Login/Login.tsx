@@ -14,17 +14,16 @@ import {
   setPersistence,
   browserSessionPersistence,
 } from "firebase/auth";
-import app from "../../FifeBase";
-import { authService } from "../../FifeBase";
+import app from "../../FireBase";
+import { authService } from "../../FireBase";
 
 function Loginpage() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
-  const userId_input = useRef();
-  const userPw_input = useRef();
-
-  const userId_msg = useRef();
-  const userPw_msg = useRef();
+  const userId_input = useRef<HTMLInputElement>(null);
+  const userPw_input = useRef<HTMLInputElement>(null);
+  const userId_msg = useRef<HTMLInputElement>(null);
+  const userPw_msg = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
   const gotoBack = () => {
@@ -55,11 +54,11 @@ function Loginpage() {
     }
   };
 
-  const UserIdHandler = (e) => {
-    setUserId(e.target.value);
+  const UserIdHandler = (event: any) => {
+    setUserId(event.target.value);
   };
-  const UserPwHandler = (e) => {
-    setUserPw(e.target.value);
+  const UserPwHandler = (event: any) => {
+    setUserPw(event.target.value);
   };
 
   return (

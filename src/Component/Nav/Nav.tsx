@@ -3,14 +3,14 @@ import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../../FifeBase";
+import { authService } from "../../FireBase";
 import { NavStyle } from "./style";
 
 function Nav() {
-  const login = useRef();
-  const logout = useRef();
-  const singuP = useRef();
-  const myPage = useRef();
+  const login = useRef<HTMLButtonElement>(null);
+  const logout = useRef<HTMLButtonElement>(null);
+  const singuP = useRef<HTMLButtonElement>(null);
+  const myPage = useRef<HTMLButtonElement>(null);
 
   // useEffect(() => {
   //   // 로그인 됐을때
