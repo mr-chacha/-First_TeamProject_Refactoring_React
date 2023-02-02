@@ -7,6 +7,7 @@ const Footerstyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 30px 0px 30px 0px;
 `;
 
 export { Footerstyle };

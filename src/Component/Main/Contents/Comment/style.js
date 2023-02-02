@@ -1,10 +1,8 @@
 import styled from "styled-components";
 
-const ContentsLayout = styled.div`
-  width: 900px;
+const CommentLayout = styled.div`
+  width: 100%;
   height: 90%;
-  display: flex;
-  justify-content: center;
 `;
 
 const ContentsBox = styled.div`
@@ -19,22 +17,26 @@ const ContentsBox = styled.div`
   display: inline;
 `;
 
-const IconBox2 = styled.div`
+const IconBox2 = styled.span`
   display: flex;
   justify-content: space-between;
   width: 100%;
   border-top: 0.1px solid #999;
 `;
-const CommentsBox = styled.span`
-  display: flex;
+const CommentsBox = styled.div`
+  height: 90%;
+  width: 100%;
   border-top: 0.1px solid #999;
   margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 const CommentsInput = styled.input`
   border: none;
   background-color: #f3f3f3;
-  width: 80%;
-  height: 20px;
+  width: 400px;
+  height: 25px;
   border-radius: 20px;
   margin-top: 5px;
 `;
@@ -47,7 +49,7 @@ const ProfileImg = styled.img`
 `;
 export {
   ContentsBox,
-  ContentsLayout,
+  CommentLayout,
   IconBox2,
   ProfileImg,
   CommentsBox,
