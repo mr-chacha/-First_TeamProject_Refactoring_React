@@ -54,12 +54,14 @@ export default function Contents({ item }: any) {
     }
   };
   const ProfilPhoto = authService.currentUser?.photoURL;
+  console.log(item.profileImg);
+
   return (
     <>
       <ContentsLayout>
         <ContentsBox>
           <Header>
-            <ProfileImg src={ProfilPhoto} />
+            <ProfileImg src={item.profileImg} />
             <Title>{item.displayName}</Title>
           </Header>
           <Contnet>{item.content}</Contnet>
