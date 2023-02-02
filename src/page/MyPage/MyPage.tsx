@@ -16,6 +16,7 @@ function Mypage() {
     : "";
   const [nic, setNic] = useState<any>("");
   const inputref = useRef<HTMLInputElement>(null);
+
   // onChange
   const onChangeNicName = (event: any) => {
     setNic(event.target.value);

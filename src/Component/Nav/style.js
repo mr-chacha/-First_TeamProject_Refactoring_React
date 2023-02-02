@@ -1,16 +1,26 @@
 import styled from "styled-components";
 
 const NavStyle = styled.div`
+  width: 100px;
+  height: 100px;
+  border: 1px solid;
+  border-radius: 5px;
   background-color: #f3f3f3;
-  margin: 0;
+  position: fixed;
+  top: 1;
+  right: 0;
+  bottom: 0;
+  left: 10;
+  z-index: 99;
+`;
+const BtnBox = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 15%;
+  flex-direction: column;
+  padding: 10px;
 `;
-const Login = styled.div`
-  margin: 20px;
+const Btn = styled.span`
+  cursor: pointer;
+  margin: 5px;
 `;
-
-export { NavStyle, Login };
+export { NavStyle, BtnBox, Btn };

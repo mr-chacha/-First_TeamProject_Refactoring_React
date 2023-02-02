@@ -7,9 +7,10 @@ import {
   InPutBtn,
   ContentsBox,
   ProfileImg,
+  Img,
 } from "./style";
 import { uuidv4 } from "@firebase/util";
-import { db } from "../../FireBase";
+import { db, storage } from "../../FireBase";
 import { useRef } from "react";
 import { authService } from "../../FireBase";
 import {
@@ -23,11 +24,15 @@ import {
 import { useEffect } from "react";
 import Contents from "./Contents/Contents";
 import { formatDate } from "../../utils/Data";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment, faTrash } from "@fortawesome/free-solid-svg-icons";
 function Main() {
   //닉네임
   const nicName = authService.currentUser?.displayName;
   //프로필 사진
-  const ProfilPhoto = authService.currentUser?.photoURL;
+  const [ProfilPhoto, setPProfilPhoto] = useState<any>(
+    authService.currentUser?.photoURL
+  );
   //시간
   const date = new Date().toString().slice(0, 25);
   //content 추가하기
@@ -43,6 +48,8 @@ function Main() {
       img: "",
     },
   ]);
+
+  // 수정
   const contentChange = (event: any) => {
     setContent(event.target.value);
   };
@@ -63,7 +70,7 @@ function Main() {
   }, []);
 
   // content 파에어베이스에 추가하기
-  const addContet = (event: React.MouseEvent<HTMLElement>) => {
+  const addContet = (event: any) => {
     event.preventDefault();
     //로그인 안했으면 추가못함
     if (!authService.currentUser) {
@@ -96,7 +103,6 @@ function Main() {
     <>
       {authService.currentUser ? (
         <Mainlayout>
-          닉네임 : {authService.currentUser.displayName}
           <InputBox>
             <ProfileImg src={ProfilPhoto} />
             <Inputs
@@ -105,7 +111,14 @@ function Main() {
               onChange={contentChange}
               ref={contentRef}
             />
-            <InPutBtn onClick={addContet}>등록</InPutBtn>
+            <FontAwesomeIcon
+              style={{
+                position: "relative",
+                cursor: "pointer",
+              }}
+              icon={faComment}
+              onClick={addContet}
+            />
           </InputBox>
           {contents.map((item) => {
             return <Contents item={item} />;
@@ -115,12 +128,19 @@ function Main() {
         <Mainlayout>
           <InputBox>
             <Inputs
-              placeholder="글을 작성하세요"
+              placeholder={hello}
               value={content}
               onChange={contentChange}
               ref={contentRef}
             />
-            <InPutBtn onClick={addContet}>등록</InPutBtn>
+            <FontAwesomeIcon
+              style={{
+                position: "relative",
+                cursor: "pointer",
+              }}
+              icon={faComment}
+              onClick={addContet}
+            />
           </InputBox>
           <ContentsBox>
             {contents.map((item) => {
