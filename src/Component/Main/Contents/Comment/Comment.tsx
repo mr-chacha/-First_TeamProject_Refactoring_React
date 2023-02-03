@@ -21,8 +21,9 @@ import {
 } from "firebase/firestore";
 import { authService, db } from "../../../../FireBase";
 import { formatDate } from "../../../../utils/Data";
-
+import Comments from "./Comments/Comments";
 function Comment({ item }: any) {
+  const commentId = item.cId;
   //시간
   const date = new Date().toString().slice(0, 25);
   //댓글달기
@@ -32,14 +33,14 @@ function Comment({ item }: any) {
     {
       displayName: "",
       content: "",
-      id: uuidv4(),
+      cid: "",
       uuid: "",
       profileImg: "",
     },
   ]);
   // 파이어베이스에서 comments 가져오기
   useEffect(() => {
-    const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+    const q = query(collection(db, "comment"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
       const comments = snapshot.docs.map((doc: any) => {
         const comment = {
@@ -73,7 +74,7 @@ function Comment({ item }: any) {
       comment,
       createdAt: date,
       profileImg: authService.currentUser?.photoURL,
-      id: uuidv4(),
+      cid: commentId,
     });
     return;
   };
@@ -120,7 +121,12 @@ function Comment({ item }: any) {
           />
         </CommentsBox>
       </CommentLayout>
-      <div>댓글들어갈자리</div>
+      {comments
+        //Content의 cId랑 Comment의 cid가 같읕거만 보여주게 필터를 걸었음
+        .filter((c) => c.cid === commentId)
+        .map((comment) => {
+          return <Comments comment={comment} />;
+        })}
     </>
   );
 }
