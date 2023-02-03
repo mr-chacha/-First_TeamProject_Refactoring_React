@@ -1,16 +1,21 @@
 import React from "react";
-import { Layout, CommentsImg, CommentsTitle, Comment } from "./style";
+import {
+  Layout,
+  CommentsImg,
+  CommentsTitle,
+  Comment,
+  CommentsTime,
+} from "./style";
 export default function Comments({ comment }: any) {
   const ProfileImg = comment.profileImg;
   return (
     <Layout>
+      <CommentsImg src={ProfileImg} />
       <div>
-        <CommentsImg src={ProfileImg} />
         <CommentsTitle>{comment.displayName}</CommentsTitle>
-      </div>
-      <div>
         <Comment>{comment.comment}</Comment>
       </div>
+      <CommentsTime>{comment.createdAt}</CommentsTime>
     </Layout>
   );
 }

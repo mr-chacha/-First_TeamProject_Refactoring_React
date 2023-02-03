@@ -60,7 +60,10 @@ function ContentsHeader({ item }: any) {
       <Header>
         <HeaderBox>
           <ProfileImg src={item.profileImg} />
-          <Title> {item.displayName}</Title>
+          <div>
+            <Title> {item.displayName}</Title>
+            <Contnet ref={contentRef}> {item.content}</Contnet>
+          </div>
           <Time> {item.createdAt}</Time>
         </HeaderBox>
         {item.authId === authService.currentUser?.uid ? (
@@ -100,7 +103,7 @@ function ContentsHeader({ item }: any) {
           ""
         )}
       </Header>
-      <Contnet ref={contentRef}> {item.content}</Contnet>
+
       <ContetnsInput
         ref={inputRef}
         style={{ display: "none" }}

@@ -21,7 +21,7 @@ const IconBox2 = styled.span`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  border-top: 0.1px solid #999;
+  border-top: 1px solid #cccccc;
 `;
 const CommentsBox = styled.div`
   height: 90%;
@@ -42,8 +42,11 @@ const CommentsInput = styled.input`
 `;
 
 const ProfileImg = styled.img`
-  width: 40px;
-  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  width: 30px;
+  height: 30px;
   border: 1px solid #d3d3d3;
   border-radius: 50%;
 `;
