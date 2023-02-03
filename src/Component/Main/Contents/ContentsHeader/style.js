@@ -9,7 +9,9 @@ const ProfileImg = styled.img`
   border-radius: 50%;
 `;
 const Title = styled.span`
+  font-size: 17;
   margin-left: 10px;
+  font-weight: 500;
 `;
 
 const Header = styled.div`
@@ -18,6 +20,7 @@ const Header = styled.div`
 `;
 
 const Time = styled.span`
+  margin-left: 5px;
   font-size: 10px;
   color: gray;
 `;
@@ -30,7 +33,10 @@ const HeaderBox = styled.div`
   display: flex;
 `;
 const Contnet = styled.div`
+  margin-top: 3px;
+  font-size: 15px;
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 export {
   ProfileImg,

@@ -27,6 +27,7 @@ import { formatDate } from "../../utils/Data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faTrash } from "@fortawesome/free-solid-svg-icons";
 function Main() {
+  const commentId = uuidv4();
   //닉네임
   const nicName = authService.currentUser?.displayName;
   //프로필 사진
@@ -42,7 +43,7 @@ function Main() {
     {
       displayName: "",
       content: "",
-      id: uuidv4(),
+      id: commentId,
       uuid: "",
       profileImg: "",
       img: "",
@@ -93,6 +94,7 @@ function Main() {
       createdAt: date,
       profileImg: authService.currentUser.photoURL,
       img: "",
+      cId: commentId,
     });
     return;
   };

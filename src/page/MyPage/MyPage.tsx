@@ -3,9 +3,9 @@ import { useRef } from "react";
 import { useState } from "react";
 import { authService } from "../../FireBase";
 import { updateProfile } from "firebase/auth";
-
 import ProfileImage from "../../Component/Profill/ProfilImage";
 import { useNavigate } from "react-router-dom";
+import { ProfileInput, Layout } from "./style";
 function Mypage() {
   const navigate = useNavigate();
   const NicNameChangeRef = useRef<HTMLButtonElement>(null);
@@ -53,10 +53,10 @@ function Mypage() {
   };
 
   return (
-    <div>
-      {authService.currentUser ? <h1>{disName}님의 마이페이지</h1> : ""}
+    <Layout>
+      {authService.currentUser ? <h1>{disName}님의 마이페이지</h1> : "하이"}
       <div>
-        <input
+        <ProfileInput
           style={{ display: "none" }}
           ref={inputref}
           type="text"
@@ -78,7 +78,7 @@ function Mypage() {
       <div></div>
       <ProfileImage />
       <div></div>
-    </div>
+    </Layout>
   );
 }
 

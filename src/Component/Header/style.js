@@ -16,6 +16,8 @@ const Layout = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-right: 10px;
+  padding: 0px;
+  margin: 0px;
 `;
 
 const ProfileImg = styled.img`
