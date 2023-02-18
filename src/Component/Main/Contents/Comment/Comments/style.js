@@ -26,4 +26,14 @@ const CommentsTime = styled.div`
   font-size: 10px;
   color: gray;
 `;
-export { Layout, CommentsImg, CommentsTitle, Comment, CommentsTime };
+const ContetnsInput = styled.input``;
+const IconBox = styled.div``;
+export {
+  Layout,
+  ContetnsInput,
+  IconBox,
+  CommentsImg,
+  CommentsTitle,
+  Comment,
+  CommentsTime,
+};

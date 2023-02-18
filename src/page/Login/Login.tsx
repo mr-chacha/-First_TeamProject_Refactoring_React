@@ -41,16 +41,19 @@ function Loginpage() {
       alert("비밀번호를 입력하세요");
     } else {
       alert("로그인 되었습니다");
+
       setPersistence(authService, browserSessionPersistence);
       signInWithEmailAndPassword(authService, userId, userPw)
         .then(() => {
-          gotoBack();
+          navigate("/");
+          window.location.replace("/");
+
           return;
         })
         .catch(() => {
           return;
         });
-      gotoBack();
+      navigate("/");
     }
   };
 

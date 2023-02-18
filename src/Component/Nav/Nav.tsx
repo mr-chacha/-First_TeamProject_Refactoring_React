@@ -28,6 +28,7 @@ function Nav() {
         alert("로그아웃 되었습니다.");
         //뒤로가기 안되게
         navigate("/", { replace: true });
+        window.location.replace("/");
       })
       .catch((error) => {
         console.log(error);

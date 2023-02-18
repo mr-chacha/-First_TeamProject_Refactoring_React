@@ -111,15 +111,19 @@ function Comment({ item }: any) {
             댓글달기
           </span>
         </IconBox2>
-        <CommentsBox>
-          <ProfileImg src={item.profileImg} />
-          <CommentsInput
-            ref={CommentRef}
-            placeholder="  댓글을 달아주세요."
-            value={comment}
-            onChange={commentChange}
-          />
-        </CommentsBox>
+        {authService.currentUser ? (
+          <CommentsBox>
+            <ProfileImg src={item.profileImg} />
+            <CommentsInput
+              ref={CommentRef}
+              placeholder="  댓글을 달아주세요."
+              value={comment}
+              onChange={commentChange}
+            />
+          </CommentsBox>
+        ) : (
+          ""
+        )}
       </CommentLayout>
       {comments
         //Content의 cId랑 Comment의 cid가 같읕거만 보여주게 필터를 걸었음

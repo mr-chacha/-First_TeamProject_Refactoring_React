@@ -20,7 +20,7 @@ function ContentsHeader({ item }: any) {
   const contentRef = useRef<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [contents, setContents] = useState("");
-  //댓글삭제하기
+  //본문삭제하기
   const DeleteContent = async (Id: any) => {
     await deleteDoc(doc(db, "reviews", Id));
   };

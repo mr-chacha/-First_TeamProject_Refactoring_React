@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Nav from "../Nav/Nav";
 import { Headerstyle, Layout, ProfileImg } from "./style";
 import { authService } from "../../FireBase";
-
 function Header() {
   //modal Ref
   const [open, setOpen] = useState(false);

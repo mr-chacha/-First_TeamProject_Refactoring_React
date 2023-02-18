@@ -128,22 +128,6 @@ function Main() {
         </Mainlayout>
       ) : (
         <Mainlayout>
-          <InputBox>
-            <Inputs
-              placeholder={hello}
-              value={content}
-              onChange={contentChange}
-              ref={contentRef}
-            />
-            <FontAwesomeIcon
-              style={{
-                position: "relative",
-                cursor: "pointer",
-              }}
-              icon={faComment}
-              onClick={addContet}
-            />
-          </InputBox>
           <ContentsBox>
             {contents.map((item) => {
               return <Contents item={item} />;
