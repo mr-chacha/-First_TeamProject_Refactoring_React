@@ -81,7 +81,6 @@ function Comment({ item }: any) {
 
   return (
     <>
-      {" "}
       <CommentLayout>
         <IconBox2>
           <span>

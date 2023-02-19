@@ -66,6 +66,7 @@ function ContentsHeader({ item }: any) {
           </div>
           <Time> {item.createdAt}</Time>
         </HeaderBox>
+        {/* 같은 id인경우에만 아이콘이 보이게하기 */}
         {item.authId === authService.currentUser?.uid ? (
           <div>
             <IconBox>

@@ -7,10 +7,10 @@ const NavStyle = styled.div`
   border-radius: 5px;
   background-color: #f3f3f3;
   position: fixed;
-  top: 1;
+  top: 80px;
   right: 0;
   bottom: 0;
-  left: 10;
+  left: 1;
   z-index: 99;
 `;
 const BtnBox = styled.div`

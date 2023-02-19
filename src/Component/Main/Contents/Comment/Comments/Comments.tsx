@@ -70,8 +70,7 @@ export default function Comments({ comment }: any) {
           </div>
 
           <CommentsTime>{comment.createdAt}</CommentsTime>
-
-          <>
+          {comment.authId === authService.currentUser?.uid ? (
             <IconBox>
               <FontAwesomeIcon
                 ref={editRef}
@@ -102,7 +101,10 @@ export default function Comments({ comment }: any) {
                 }}
               />
             </IconBox>
-          </>
+          ) : (
+            ""
+          )}
+          <></>
         </Layout>
       ) : (
         ""

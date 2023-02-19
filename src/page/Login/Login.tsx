@@ -48,7 +48,6 @@ function Loginpage() {
           navigate("/");
           window.location.replace("/");
 
-          return;
         })
         .catch(() => {
           return;
