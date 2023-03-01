@@ -1,18 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import {
-  Mainlayout,
-  InputBox,
-  Inputs,
-  InPutBtn,
-  ContentsBox,
-  ProfileImg,
-  Img,
-} from "./style";
+import styled from "styled-components";
 import { uuidv4 } from "@firebase/util";
-import { db, storage } from "../../FireBase";
+import { db, storage } from "../FireBase";
 import { useRef } from "react";
-import { authService } from "../../FireBase";
+import { authService } from "../FireBase";
 import {
   collection,
   doc,
@@ -22,11 +14,11 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { useEffect } from "react";
-import Contents from "./Contents/Contents";
-import { formatDate } from "../../utils/Data";
+import Contents from "../Component/Contents/Contents";
+import { formatDate } from "../utils/Data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faTrash } from "@fortawesome/free-solid-svg-icons";
-function Main() {
+function MainPage() {
   const commentId = uuidv4();
   //닉네임
   const nicName = authService.currentUser?.displayName;
@@ -102,7 +94,7 @@ function Main() {
   //input placeholder
   const hello = `${nicName} 님안녕하세요`;
   return (
-    <>
+    <HomePageLayout>
       {authService.currentUser ? (
         <Mainlayout>
           <InputBox>
@@ -128,22 +120,6 @@ function Main() {
         </Mainlayout>
       ) : (
         <Mainlayout>
-          <InputBox>
-            <Inputs
-              placeholder={hello}
-              value={content}
-              onChange={contentChange}
-              ref={contentRef}
-            />
-            <FontAwesomeIcon
-              style={{
-                position: "relative",
-                cursor: "pointer",
-              }}
-              icon={faComment}
-              onClick={addContet}
-            />
-          </InputBox>
           <ContentsBox>
             {contents.map((item) => {
               return <Contents item={item} />;
@@ -151,8 +127,85 @@ function Main() {
           </ContentsBox>
         </Mainlayout>
       )}
-    </>
+    </HomePageLayout>
   );
 }
 
-export default Main;
+export default MainPage;
+const HomePageLayout = styled.div`
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f3f3;
+`;
+const Mainlayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 80px 0px 50px 0px;
+  width: 900px;
+  height: 100%;
+`;
+const MainTitle = styled.div`
+  font-size: 20px;
+`;
+
+const MainBox = styled.div`
+  box-shadow: 1px 2px 1px 1px #bdbdbd;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid black;
+  border-radius: 15px;
+  background-color: white;
+  width: 50%;
+  height: 100px;
+`;
+
+const InputBox = styled.div`
+  box-shadow: 1px 2px 1px 1px #bdbdbd;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid black;
+  border-radius: 15px;
+  background-color: white;
+  width: 50%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Inputs = styled.input`
+  width: 80%;
+  height: 80%;
+  background-color: #f7f7f7;
+  border: none;
+  border-radius: 50px;
+  margin: 0px 20px 0px 20px;
+`;
+
+const InPutBtn = styled.button``;
+const ContentsBox = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const ProfileImg = styled.img`
+  position: relative;
+  margin: auto;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d3d3d3;
+  border-radius: 50px;
+`;
+
+const Img = styled.img`
+  position: relative;
+  margin: auto;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d3d3d3;
+  border-radius: 50%;
+`;

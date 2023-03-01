@@ -1,23 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  LogingLayout,
-  LoginBox,
-  LoginTitle,
-  InputBox,
-  BtnBox,
-  CheckMsg,
-} from "./style";
-import {
   signInWithEmailAndPassword,
-  getAuth,
   setPersistence,
   browserSessionPersistence,
 } from "firebase/auth";
-import app from "../../FireBase";
-import { authService } from "../../FireBase";
-
-function Loginpage() {
+import { authService } from "../FireBase";
+import styled from "styled-components";
+function LoginPage() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const userId_input = useRef<HTMLInputElement>(null);
@@ -41,16 +31,17 @@ function Loginpage() {
       alert("비밀번호를 입력하세요");
     } else {
       alert("로그인 되었습니다");
+
       setPersistence(authService, browserSessionPersistence);
       signInWithEmailAndPassword(authService, userId, userPw)
         .then(() => {
-          gotoBack();
-          return;
+          navigate("/");
+          window.location.replace("/");
         })
         .catch(() => {
           return;
         });
-      gotoBack();
+      navigate("/");
     }
   };
 
@@ -98,4 +89,45 @@ function Loginpage() {
   );
 }
 
-export default Loginpage;
+export default LoginPage;
+
+const LogingLayout = styled.div`
+  width: 100%;
+  height: 1080px;
+`;
+
+const LoginBox = styled.div`
+  width: 400px;
+  height: 400px;
+  border: 3px solid green;
+
+  //글씨 중앙에 위치하게하기
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  //박스 중앙에 위치하게하기
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const LoginTitle = styled.h1``;
+
+const InputBox = styled.div`
+  display: flex;
+  align-items: center;
+  height: 30px;
+`;
+const BtnBox = styled.div`
+  margin-top: 5px;
+  display: flex;
+`;
+const CheckMsg = styled.p`
+  color: #f03e3e;
+  margin: 10px 0 0 2px;
+  display: none;
+  font-size: 10px;
+`;

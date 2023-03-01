@@ -1,5 +1,20 @@
 import styled from "styled-components";
 
+import ContentsHeader from "./ContentsHeader";
+import Comment from "../Comment/Comment";
+export default function Contents({ item }: any) {
+  return (
+    <>
+      <ContentsLayout>
+        <ContentsBox>
+          <ContentsHeader item={item} />
+          <Comment item={item} />
+        </ContentsBox>
+      </ContentsLayout>
+    </>
+  );
+}
+
 const ContentsLayout = styled.div`
   width: 900px;
   height: 90%;

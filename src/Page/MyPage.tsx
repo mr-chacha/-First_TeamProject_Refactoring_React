@@ -1,11 +1,12 @@
 import React from "react";
 import { useRef } from "react";
 import { useState } from "react";
-import { authService } from "../../FireBase";
+import { authService } from "../FireBase";
 import { updateProfile } from "firebase/auth";
-import ProfileImage from "../../Component/Profill/ProfilImage";
+import ProfileImage from "../Component/Profill/ProfilImage";
 import { useNavigate } from "react-router-dom";
-import { ProfileInput, Layout } from "./style";
+import styled from "styled-components";
+
 function Mypage() {
   const navigate = useNavigate();
   const NicNameChangeRef = useRef<HTMLButtonElement>(null);
@@ -83,3 +84,21 @@ function Mypage() {
 }
 
 export default Mypage;
+
+const Layout = styled.div`
+  width: 100%;
+  height: 700px;
+  background-color: #f3f3f3;
+  margin: 0px;
+  padding: 0px;
+`;
+const ProfileImg = styled.img`
+  position: relative;
+  margin: auto;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #d3d3d3;
+  border-radius: 50%;
+  cursor: pointer;
+`;
+const ProfileInput = styled.input``;
