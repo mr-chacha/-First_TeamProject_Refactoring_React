@@ -1,8 +1,8 @@
 import { signOut } from "firebase/auth";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../../FireBase";
-import { NavStyle, BtnBox, Btn } from "./style";
+import { authService } from "../FireBase";
+import styled from "styled-components";
 
 function Nav() {
   const login = useRef<HTMLButtonElement>(null);
@@ -60,3 +60,27 @@ function Nav() {
 }
 
 export default Nav;
+
+const NavStyle = styled.div`
+  width: 100px;
+  height: 100px;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+  position: fixed;
+  top: 80px;
+  right: 0;
+  bottom: 0;
+  left: 1;
+  z-index: 99;
+`;
+const BtnBox = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+`;
+const Btn = styled.span`
+  cursor: pointer;
+  margin: 5px;
+`;

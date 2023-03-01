@@ -1,14 +1,6 @@
 import React, { useRef, useState } from "react";
-import { authService, db } from "../../../../../FireBase";
-import {
-  Layout,
-  CommentsImg,
-  CommentsTitle,
-  Comment,
-  CommentsTime,
-  IconBox,
-  ContetnsInput,
-} from "./style";
+import { authService, db } from "../../FireBase";
+import styled from "styled-components";
 import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
@@ -70,6 +62,7 @@ export default function Comments({ comment }: any) {
           </div>
 
           <CommentsTime>{comment.createdAt}</CommentsTime>
+          {/* 같은 id인경우에만 아이콘이 보이게하기 */}
           {comment.authId === authService.currentUser?.uid ? (
             <IconBox>
               <FontAwesomeIcon
@@ -112,3 +105,33 @@ export default function Comments({ comment }: any) {
     </>
   );
 }
+
+const Layout = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin: 10px 10px 10px 10px;
+`;
+const CommentsImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 30px;
+`;
+const CommentsTitle = styled.div`
+  font-size: 17;
+  margin-left: 10px;
+  font-weight: 500;
+`;
+const Comment = styled.div`
+  margin-top: 5px;
+  font-size: 12px;
+  margin-left: 10px;
+`;
+
+const CommentsTime = styled.div`
+  margin-left: 5px;
+  font-size: 10px;
+  color: gray;
+`;
+const ContetnsInput = styled.input``;
+const IconBox = styled.div``;

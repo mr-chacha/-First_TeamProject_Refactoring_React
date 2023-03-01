@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { ProfileImg } from "./style";
 import profileImgDefault from "../assets/profile.png";
 import { authService, storage } from "../../FireBase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { uuidv4 } from "@firebase/util";
 import { updateProfile } from "firebase/auth";
-interface Profil {
-  attachment: any;
-  onChangeProfileImg: any;
-}
+import styled from "styled-components";
 
 export default function ProfileImage() {
   //프로필 사진변경 함수들
@@ -74,3 +70,13 @@ export default function ProfileImage() {
     </>
   );
 }
+
+const ProfileImg = styled.img`
+  position: relative;
+  margin: auto;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #d3d3d3;
+  border-radius: 50%;
+  cursor: pointer;
+`;
