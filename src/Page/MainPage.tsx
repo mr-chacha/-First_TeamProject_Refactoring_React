@@ -18,14 +18,14 @@ import Contents from "../Component/Contents/Contents";
 import { formatDate } from "../utils/Data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useQuery } from "react-query";
 function MainPage() {
   const commentId = uuidv4();
   //닉네임
   const nicName = authService.currentUser?.displayName;
   //프로필 사진
-  const [ProfilPhoto, setPProfilPhoto] = useState<any>(
-    authService.currentUser?.photoURL
-  );
+  const ProfilPhoto = authService.currentUser?.photoURL;
+
   //시간
   const date = new Date().toString().slice(0, 25);
   //content 추가하기
@@ -80,11 +80,11 @@ function MainPage() {
     const authId = authService.currentUser?.uid;
     const usersRef = collection(db, "reviews");
     setDoc(doc(usersRef), {
-      displayName: authService.currentUser.displayName,
+      displayName: authService.currentUser?.displayName,
       authId,
       content,
       createdAt: date,
-      profileImg: authService.currentUser.photoURL,
+      profileImg: authService.currentUser?.photoURL,
       img: "",
       cId: commentId,
     });
@@ -98,7 +98,7 @@ function MainPage() {
       {authService.currentUser ? (
         <Mainlayout>
           <InputBox>
-            <ProfileImg src={ProfilPhoto} />
+            <ProfileImg src={ProfilPhoto ? ProfilPhoto : "default-image-url"} />
             <Inputs
               placeholder={hello}
               value={content}
