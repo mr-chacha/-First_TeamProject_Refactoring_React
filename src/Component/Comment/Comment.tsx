@@ -11,12 +11,20 @@ import {
   orderBy,
   query,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { authService, db } from "../../FireBase";
 import { formatDate } from "../../utils/Data";
 import Comments from "./Comments";
 function Comment({ item }: any) {
+  //좋아요 카운트
+  const [contentsLike, setContentsLike] = useState(0);
+  //좋아요 버튼여부
+  const [Like, setLike] = useState(false);
+  //댓글아이디
   const commentId = item.cId;
+  console.log(item.cId);
+
   //시간
   const date = new Date().toString().slice(0, 25);
   //댓글달기
@@ -77,7 +85,9 @@ function Comment({ item }: any) {
       <CommentLayout>
         <IconBox2>
           <span>
+            {/* 좋아요 버튼*/}
             <FontAwesomeIcon
+              // onClick={ContentsLike}
               icon={faHeart}
               style={{
                 position: "relative",
@@ -87,8 +97,9 @@ function Comment({ item }: any) {
                 color: "red",
               }}
             />
-            좋아요
+            좋아요 {item.Like}
           </span>
+          {/* 댓글달기 버튼*/}
           <span onClick={commetsAdd} style={{ cursor: "pointer" }}>
             <FontAwesomeIcon
               icon={faComment}
@@ -103,12 +114,15 @@ function Comment({ item }: any) {
             댓글달기
           </span>
         </IconBox2>
+        {/* 로그인된 유저일때만 댓글입력창이 보이게*/}
         {authService.currentUser ? (
           <CommentsBox>
+            {/*프로필 이미지*/}
             <ProfileImg src={item.profileImg} />
+            {/*댓글 입력창*/}
             <CommentsInput
               ref={CommentRef}
-              placeholder="  댓글을 달아주세요."
+              placeholder="  댓글을 입력해주세요."
               value={comment}
               onChange={commentChange}
             />
@@ -132,18 +146,6 @@ export default Comment;
 const CommentLayout = styled.div`
   width: 100%;
   height: 90%;
-`;
-
-const ContentsBox = styled.div`
-  box-shadow: 1px 2px 1px 1px #bdbdbd;
-  padding: 20px;
-  margin-top: 20px;
-  border: 1px solid black;
-  border-radius: 15px;
-  background-color: white;
-  width: 50%;
-  height: 50%;
-  display: inline;
 `;
 
 const IconBox2 = styled.span`

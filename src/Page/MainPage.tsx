@@ -95,16 +95,20 @@ function MainPage() {
   const hello = `${nicName} 님안녕하세요`;
   return (
     <HomePageLayout>
+      {/* 로그인된 유저일때 인풋이 보이고 */}
       {authService.currentUser ? (
         <Mainlayout>
           <InputBox>
+            {/* 프로필 이지 없을때 디폴트 이미지 보여주기 */}
             <ProfileImg src={ProfilPhoto ? ProfilPhoto : "default-image-url"} />
+            {/* 글 등록 인풋*/}
             <Inputs
               placeholder={hello}
               value={content}
               onChange={contentChange}
               ref={contentRef}
             />
+            {/* 글 등록 아이콘*/}
             <FontAwesomeIcon
               style={{
                 position: "relative",
@@ -114,18 +118,22 @@ function MainPage() {
               onClick={addContet}
             />
           </InputBox>
+          {/* 등록된 글 컴포넌트*/}
           {contents.map((item) => {
             return <Contents item={item} />;
           })}
         </Mainlayout>
       ) : (
-        <Mainlayout>
-          <ContentsBox>
-            {contents.map((item) => {
-              return <Contents item={item} />;
-            })}
-          </ContentsBox>
-        </Mainlayout>
+        <>
+          {/* 로그인 안된 유저일때는 인풋이 안보임*/}
+          <Mainlayout>
+            <ContentsBox>
+              {contents.map((item) => {
+                return <Contents item={item} />;
+              })}
+            </ContentsBox>
+          </Mainlayout>
+        </>
       )}
     </HomePageLayout>
   );

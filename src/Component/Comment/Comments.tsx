@@ -5,7 +5,6 @@ import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 export default function Comments({ comment }: any) {
-  const ProfileImg = comment.profileImg;
   const sucRef = useRef<any>(null);
   const editRef = useRef<any>(null);
   const commentsRef = useRef<any>(null);
@@ -47,11 +46,14 @@ export default function Comments({ comment }: any) {
   };
   return (
     <>
+      {/*로그인된 유저일때만 댓글이 보이게*/}
       {authService.currentUser ? (
         <Layout>
-          <CommentsImg src={ProfileImg} />
+          {/* 프로필 이미지*/}
+          <ProfileImg src={comment.profileImg} />
           <div>
-            <CommentsTitle>{comment.displayName}</CommentsTitle>
+            {/*프로필 닉네임*/}
+            <ProfileName>{comment.displayName}</ProfileName>
             <Comment ref={commentsRef}> {comment.comment}</Comment>
             <ContetnsInput
               ref={inputRef}
@@ -65,6 +67,7 @@ export default function Comments({ comment }: any) {
           {/* 같은 id인경우에만 아이콘이 보이게하기 */}
           {comment.authId === authService.currentUser?.uid ? (
             <IconBox>
+              {/* 댓글수정아이콘 */}
               <FontAwesomeIcon
                 ref={editRef}
                 icon={faPen}
@@ -74,6 +77,7 @@ export default function Comments({ comment }: any) {
                   cursor: "pointer",
                 }}
               />
+              {/*댓글확인 아이콘 */}
               <FontAwesomeIcon
                 ref={sucRef}
                 icon={faCheck}
@@ -84,6 +88,7 @@ export default function Comments({ comment }: any) {
                   display: "none",
                 }}
               />
+              {/*댓글삭제 아이콘*/}
               <FontAwesomeIcon
                 icon={faTrash}
                 onClick={() => DeleteContent(comment.id)}
@@ -112,12 +117,12 @@ const Layout = styled.div`
   display: flex;
   margin: 10px 10px 10px 10px;
 `;
-const CommentsImg = styled.img`
+const ProfileImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 30px;
 `;
-const CommentsTitle = styled.div`
+const ProfileName = styled.div`
   font-size: 17;
   margin-left: 10px;
   font-weight: 500;
