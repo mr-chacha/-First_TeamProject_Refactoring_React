@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-export default function Comments({ comment }: any) {
+export default function Comments({ comment, likeUserIds }: any) {
   const sucRef = useRef<any>(null);
   const editRef = useRef<any>(null);
   const commentsRef = useRef<any>(null);
@@ -14,6 +14,7 @@ export default function Comments({ comment }: any) {
   const DeleteContent = async (Id: any) => {
     await deleteDoc(doc(db, "comment", Id));
   };
+
   // 수정 onChange
   const onChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -44,6 +45,7 @@ export default function Comments({ comment }: any) {
       console.log(err);
     }
   };
+
   return (
     <>
       {/*로그인된 유저일때만 댓글이 보이게*/}

@@ -12,7 +12,12 @@ function ContentsHeader({ item }: any) {
   const [contents, setContents] = useState("");
   //본문삭제하기
   const DeleteContent = async (Id: any) => {
-    await deleteDoc(doc(db, "reviews", Id));
+    if (window.confirm("정말 삭제하겠습니까??")) {
+      await deleteDoc(doc(db, "reviews", Id));
+      return;
+    } else {
+      return;
+    }
   };
   // 수정 onChange
   const onChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {

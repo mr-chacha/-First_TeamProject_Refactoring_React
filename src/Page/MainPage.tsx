@@ -120,7 +120,7 @@ function MainPage() {
           </InputBox>
           {/* 등록된 글 컴포넌트*/}
           {contents.map((item) => {
-            return <Contents item={item} />;
+            return <Contents item={item} key={item?.id} />;
           })}
         </Mainlayout>
       ) : (
@@ -129,7 +129,7 @@ function MainPage() {
           <Mainlayout>
             <ContentsBox>
               {contents.map((item) => {
-                return <Contents item={item} />;
+                return <Contents item={item} key={item?.id} />;
               })}
             </ContentsBox>
           </Mainlayout>

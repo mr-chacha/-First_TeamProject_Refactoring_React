@@ -5,9 +5,12 @@ import Comment from "../Comment/Comment";
 export default function Contents({ item }: any) {
   return (
     <>
+      {/*컨텐츠 레이아웃 */}
       <ContentsLayout>
         <ContentsBox>
+          {/* 컨텐츠 수정 삭제 헤더*/}
           <ContentsHeader item={item} />
+          {/* 댓글 부분*/}
           <Comment item={item} />
         </ContentsBox>
       </ContentsLayout>
