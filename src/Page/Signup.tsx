@@ -103,10 +103,11 @@ function SignupPage() {
       createUserWithEmailAndPassword(authService, userId, userPw)
         .then((result) => {
           //이걸해야 authService에 displayName가 나옴
+          alert("회원가입 되었습니다");
           updateProfile(result.user, {
             displayName: displayName,
           });
-          alert("회원가입 되었습니다");
+
           setDoc(doc(usersRef), {
             displayname: displayName,
             id: generateId,
@@ -116,7 +117,7 @@ function SignupPage() {
           return;
         })
         .catch(() => {
-          alert("이미있는계정임");
+          alert("이미있는계정입니다.");
           return;
         });
       return;

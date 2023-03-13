@@ -12,7 +12,12 @@ function ContentsHeader({ item }: any) {
   const [contents, setContents] = useState("");
   //본문삭제하기
   const DeleteContent = async (Id: any) => {
-    await deleteDoc(doc(db, "reviews", Id));
+    if (window.confirm("정말 삭제하겠습니까??")) {
+      await deleteDoc(doc(db, "reviews", Id));
+      return;
+    } else {
+      return;
+    }
   };
   // 수정 onChange
   const onChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,16 +54,21 @@ function ContentsHeader({ item }: any) {
     <>
       <Header>
         <HeaderBox>
+          {/* 프로필 이미지*/}
           <ProfileImg src={item.profileImg} />
           <div>
-            <Title> {item.displayName}</Title>
+            {/* 프로필 닉네임*/}
+            <ProfileName> {item.displayName}</ProfileName>
+            {/* 등록된 컨텐츠*/}
             <Contnet ref={contentRef}> {item.content}</Contnet>
           </div>
+          {/* 등록된 시간*/}
           <Time> {item.createdAt}</Time>
         </HeaderBox>
-        {/* 같은 id인경우에만 아이콘이 보이게하기 */}
+        {/* 같은 id인경우에만 수정 삭제 아이콘 보이게하기 */}
         {item.authId === authService.currentUser?.uid ? (
           <div>
+            {/* 수정 아이콘*/}
             <IconBox>
               <FontAwesomeIcon
                 ref={editRef}
@@ -69,6 +79,7 @@ function ContentsHeader({ item }: any) {
                   cursor: "pointer",
                 }}
               />
+              {/* 수정 확인 아이콘*/}
               <FontAwesomeIcon
                 ref={sucRef}
                 icon={faCheck}
@@ -79,6 +90,7 @@ function ContentsHeader({ item }: any) {
                   display: "none",
                 }}
               />
+              {/* 삭제 아이콘*/}
               <FontAwesomeIcon
                 icon={faTrash}
                 onClick={() => DeleteContent(item.id)}
@@ -94,7 +106,7 @@ function ContentsHeader({ item }: any) {
           ""
         )}
       </Header>
-
+      {/* 수정 인풋창*/}
       <ContetnsInput
         ref={inputRef}
         style={{ display: "none" }}
@@ -115,7 +127,7 @@ const ProfileImg = styled.img`
   border: 1px solid #d3d3d3;
   border-radius: 50%;
 `;
-const Title = styled.span`
+const ProfileName = styled.span`
   font-size: 17;
   margin-left: 10px;
   font-weight: 500;

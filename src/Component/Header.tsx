@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Nav from "./Nav";
-
 import { authService } from "../FireBase";
 import styled from "styled-components";
+import defaultImg from ".././image/img1.png";
 function Header() {
   //modal Ref
   const [open, setOpen] = useState(false);
   //프로필 사진
-  const [ProfilPhoto, setPProfilPhoto] = useState<any>(
-    authService.currentUser?.photoURL
-  );
-
+  const ProfilPhoto: any = authService?.currentUser?.photoURL;
+  sessionStorage.setItem("Img", ProfilPhoto);
+  const Pimg: any = sessionStorage.getItem("Img");
   const navigate = useNavigate();
   //홈으로 이동버튼
   const gotoHone = () => {
@@ -26,7 +25,12 @@ function Header() {
     <Layout>
       <Headerstyle onClick={gotoHone}>뉴스피드 리펙토링</Headerstyle>
       <div>
-        <ProfileImg src={ProfilPhoto} onClick={ModalOpen} />
+        {authService?.currentUser ? (
+          <ProfileImg src={ProfilPhoto} onClick={ModalOpen} />
+        ) : (
+          <ProfileImg src={defaultImg} onClick={ModalOpen} />
+        )}
+
         {open && <Nav />}
       </div>
     </Layout>

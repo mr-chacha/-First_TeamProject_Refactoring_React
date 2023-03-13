@@ -10,6 +10,8 @@ import styled from "styled-components";
 function LoginPage() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
+  const [userIds, setUserIds] = useState(false);
+  const [userPws, setUserPws] = useState(false);
   const userId_input = useRef<HTMLInputElement>(null);
   const userPw_input = useRef<HTMLInputElement>(null);
   const userId_msg = useRef<HTMLInputElement>(null);
@@ -24,24 +26,30 @@ function LoginPage() {
   };
 
   //로그인 유저 핸들러
-  const LoginUser = () => {
+  const LoginUser = (event: any) => {
+    event.preventDefault();
     if (!userId) {
       alert("아이디를 입력하세요");
+      userId_input.current!.focus();
     } else if (!userPw) {
       alert("비밀번호를 입력하세요");
+      userPw_input.current!.focus();
     } else {
-      alert("로그인 되었습니다");
-
       setPersistence(authService, browserSessionPersistence);
       signInWithEmailAndPassword(authService, userId, userPw)
         .then(() => {
+          alert("로그인 되었습니다.");
           navigate("/");
-          window.location.replace("/");
         })
-        .catch(() => {
-          return;
+        .catch((error) => {
+          const errorCode = error.code;
+          if (errorCode === "auth/user-not-found") {
+            alert("등록된 계정이 없습니다.");
+          } else {
+            alert("로그인 실패");
+          }
         });
-      navigate("/");
+      // navigate("/");
     }
   };
 
