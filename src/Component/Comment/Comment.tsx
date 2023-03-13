@@ -18,9 +18,9 @@ import { authService, db } from "../../FireBase";
 import { uuidv4 } from "@firebase/util";
 import { formatDate } from "../../utils/Data";
 import Comments from "./Comments";
+import { LikeIcon } from "./LikeIcon";
 function Comment({ item, id }: any) {
   //유저의 아이디
-  const userId = authService.currentUser?.uid;
   const heartRef = useRef<any>();
   //댓글아이디
   const commentId = item.cId;
@@ -82,9 +82,12 @@ function Comment({ item, id }: any) {
 
   //파이어베이스에서 불러온 좋아요리스트
   const [likeId, setLikeId] = useState<any>();
+
   //좋아요의 아이디
   const likeIds = likeId?.map((id: any) => id?.cId);
-  const likeIdss = likeId?.map((id: any) => id?.id);
+
+  const likeIdssss = likeId?.map((id: any) => id?.id);
+
   //좋아요의 아이디와 포스트의 cId랑 같은거만 분리해줌
   const like = likeIds?.filter((id: any) => id === item?.cId);
   //분리해준거를 카운트해줌
@@ -105,7 +108,6 @@ function Comment({ item, id }: any) {
         userId,
         cId: item?.cId,
       });
-      heartRef.current.style.color = "red";
       return;
     }
   };
@@ -128,55 +130,43 @@ function Comment({ item, id }: any) {
   //좋아요 삭제
   const Delete = async (id: any) => {
     await deleteDoc(doc(db, "Like", id));
+    return;
   };
-
+  const test = () => {
+    likeId?.filter((c: any) => c.cId === commentId).map((i: any) => {});
+  };
   return (
     <>
       <CommentLayout>
         <IconBox2>
           <span>
-            {/* 파이어베이스 포스트의 아이디와 내가 내가 누른 포스트의 아이디와 비교
-              포스트의 좋아요 누른 아이디와 현재로그인한 아이디를 비교해서 좋아요 누르지않은 
-              것들은 다르게 보여줌 */}
-            {likeUserIds?.includes(authService.currentUser?.uid) &&
-            like?.includes(item?.cId) ? (
-              <>
-                {/* 좋아요 버튼*/}
-                <FontAwesomeIcon
-                  onClick={() => {
-                    Delete(likeIdss[0]);
-                  }}
-                  icon={faHeart}
-                  ref={heartRef}
-                  style={{
-                    position: "relative",
-                    cursor: "pointer",
-                    marginTop: "10px",
-                    marginRight: "3px",
-                    color: "red",
-                  }}
-                />
-                좋아요{likeCount}
-              </>
-            ) : (
-              <>
-                {/* 좋아요 버튼*/}
-                <FontAwesomeIcon
-                  onClick={likeAdd}
-                  icon={faHeart}
-                  ref={heartRef}
-                  style={{
-                    position: "relative",
-                    cursor: "pointer",
-                    marginTop: "10px",
-                    marginRight: "3px",
-                    color: "#999",
-                  }}
-                />
-                싫어요{likeCount === 0 ? "" : likeCount}
-              </>
-            )}
+            <>
+              <FontAwesomeIcon
+                onClick={() => {
+                  likeId
+                    ?.filter((c: any) => c.cId === commentId)
+                    .map((i: any) => {
+                      if (i.userId === authService.currentUser?.uid) {
+                        Delete(i.id);
+                        return;
+                      }
+                    });
+                }}
+                // onClick={likeAdd}
+                icon={faHeart}
+                ref={heartRef}
+                style={{
+                  position: "relative",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                  marginRight: "3px",
+                  color: "red",
+                }}
+              />
+              좋아요{likeCount}
+            </>
           </span>
+
           {/* 댓글달기 버튼*/}
           <span onClick={commetsAdd} style={{ cursor: "pointer" }}>
             <FontAwesomeIcon
@@ -193,21 +183,19 @@ function Comment({ item, id }: any) {
           </span>
         </IconBox2>
         {/* 로그인된 유저일때만 댓글입력창이 보이게*/}
-        {authService.currentUser ? (
-          <CommentsBox>
-            {/*프로필 이미지*/}
-            <ProfileImg src={item.profileImg} />
-            {/*댓글 입력창*/}
+        <CommentsBox>
+          {/*프로필 이미지*/}
+          <ProfileImg src={item.profileImg} />
+          {/*댓글 입력창*/}
+          <form onSubmit={commetsAdd}>
             <CommentsInput
               ref={CommentRef}
-              placeholder="  댓글을 입력해주세요."
+              placeholder="댓글을 입력해주세요."
               value={comment}
               onChange={commentChange}
             />
-          </CommentsBox>
-        ) : (
-          ""
-        )}
+          </form>
+        </CommentsBox>
       </CommentLayout>
       {comments
         //Content의 cId랑 Comment의 cid가 같읕거만 보여주게 필터를 걸었음
@@ -254,6 +242,7 @@ const CommentsInput = styled.input`
   height: 25px;
   border-radius: 20px;
   margin-top: 5px;
+  padding-left: 20px;
 `;
 
 const ProfileImg = styled.img`

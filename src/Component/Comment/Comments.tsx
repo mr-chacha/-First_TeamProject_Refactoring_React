@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-export default function Comments({ comment, likeUserIds }: any) {
+export default function Comments({ comment }: any) {
   const sucRef = useRef<any>(null);
   const editRef = useRef<any>(null);
   const commentsRef = useRef<any>(null);

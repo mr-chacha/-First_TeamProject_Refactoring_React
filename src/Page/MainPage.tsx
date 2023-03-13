@@ -98,7 +98,7 @@ function MainPage() {
       {/* 로그인된 유저일때 인풋이 보이고 */}
       {authService.currentUser ? (
         <Mainlayout>
-          <InputBox>
+          <InputBox onSubmit={addContet}>
             {/* 프로필 이지 없을때 디폴트 이미지 보여주기 */}
             <ProfileImg src={ProfilPhoto ? ProfilPhoto : "default-image-url"} />
             {/* 글 등록 인풋*/}
@@ -172,7 +172,7 @@ const MainBox = styled.div`
   height: 100px;
 `;
 
-const InputBox = styled.div`
+const InputBox = styled.form`
   box-shadow: 1px 2px 1px 1px #bdbdbd;
   padding: 20px;
   margin-top: 20px;
