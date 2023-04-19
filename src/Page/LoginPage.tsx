@@ -10,8 +10,6 @@ import styled from "styled-components";
 function LoginPage() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
-  const [userIds, setUserIds] = useState(false);
-  const [userPws, setUserPws] = useState(false);
   const userId_input = useRef<HTMLInputElement>(null);
   const userPw_input = useRef<HTMLInputElement>(null);
   const userId_msg = useRef<HTMLInputElement>(null);

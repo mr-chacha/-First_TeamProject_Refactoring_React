@@ -8,18 +8,18 @@ import {
   collection,
   deleteDoc,
   doc,
+  getFirestore,
   onSnapshot,
   orderBy,
   query,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { authService, db } from "../../FireBase";
-import { uuidv4 } from "@firebase/util";
 import { formatDate } from "../../utils/Data";
 import Comments from "./Comments";
-import { LikeIcon } from "./LikeIcon";
-function Comment({ item, id }: any) {
+import Icon from "../Icon/Icon";
+
+function Comment({ item }: any) {
   //유저의 아이디
   const heartRef = useRef<any>();
   //댓글아이디
@@ -83,11 +83,10 @@ function Comment({ item, id }: any) {
   //파이어베이스에서 불러온 좋아요리스트
   const [likeId, setLikeId] = useState<any>();
 
-  //좋아요의 아이디
+  //좋아요 눌린 컨텐츠의 아이디
   const likeIds = likeId?.map((id: any) => id?.cId);
-
+  //좋아요의 고유 아이디
   const likeIdssss = likeId?.map((id: any) => id?.id);
-
   //좋아요의 아이디와 포스트의 cId랑 같은거만 분리해줌
   const like = likeIds?.filter((id: any) => id === item?.cId);
   //분리해준거를 카운트해줌
@@ -108,7 +107,6 @@ function Comment({ item, id }: any) {
         userId,
         cId: item?.cId,
       });
-      return;
     }
   };
 
@@ -127,47 +125,60 @@ function Comment({ item, id }: any) {
     });
   }, []);
 
-  //좋아요 삭제
-  const Delete = async (id: any) => {
-    await deleteDoc(doc(db, "Like", id));
-    return;
+  //좋아요 누른 유저아이디
+  const b = likeId
+    ?.filter((c: any) => c?.cId === commentId)
+    .map((id: any) => id?.userId);
+
+  //좋아요
+  const likebtn = async (id: any) => {
+    if (b.toString() === authService.currentUser?.uid) {
+      deleteDoc(doc(db, "Like", id));
+    } else {
+      const userId = authService.currentUser?.uid;
+      const likeRef = collection(db, "Like");
+      setDoc(doc(likeRef), {
+        displayName: authService.currentUser?.displayName,
+        userId,
+        cId: item?.cId,
+      });
+    }
   };
-  const test = () => {
-    likeId?.filter((c: any) => c.cId === commentId).map((i: any) => {});
-  };
+  const test = likeId?.map((like: any) => like?.id);
+  const test3 = likeId?.map((like: any) => like?.id);
+  const test2 = test?.filter((id: any) => id === test3);
+
   return (
     <>
       <CommentLayout>
         <IconBox2>
           <span>
             <>
-              <FontAwesomeIcon
-                onClick={() => {
-                  likeId
-                    ?.filter((c: any) => c.cId === commentId)
-                    .map((i: any) => {
-                      if (i.userId === authService.currentUser?.uid) {
-                        Delete(i.id);
-                        return;
-                      }
-                    });
-                }}
-                // onClick={likeAdd}
-                icon={faHeart}
-                ref={heartRef}
-                style={{
-                  position: "relative",
-                  cursor: "pointer",
-                  marginTop: "10px",
-                  marginRight: "3px",
-                  color: "red",
-                }}
-              />
-              좋아요{likeCount}
+              {likeId
+                ?.filter((c: any) => c.cId === item.cId)
+                .map((like: any) => {
+                  return <Icon like={like} item={item} />;
+                })}
+              <span ref={heartRef}>
+                좋아요
+                <FontAwesomeIcon
+                  onClick={likebtn}
+                  icon={faHeart}
+                  ref={heartRef}
+                  style={{
+                    position: "relative",
+                    cursor: "pointer",
+                    marginTop: "10px",
+                    marginRight: "3px",
+                    color: "gray",
+                  }}
+                />
+              </span>
+              {likeCount}
             </>
           </span>
 
-          {/* 댓글달기 버튼*/}
+          {/* 댓글달기 버튼 */}
           <span onClick={commetsAdd} style={{ cursor: "pointer" }}>
             <FontAwesomeIcon
               icon={faComment}
