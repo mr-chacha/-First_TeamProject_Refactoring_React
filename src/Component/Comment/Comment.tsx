@@ -80,27 +80,14 @@ function Comment({ item }: any) {
     return;
   };
 
-  // 좋아요 불러오기
-  // useEffect(() => {
-  //   const likeCounts = query(collection(db, "Like"));
-  //   onSnapshot(likeCounts, (snapshot) => {
-  //     const Likes = snapshot.docs.map((doc: any) => {
-  //       const like = {
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       };
-  //       return like;
-  //     });
-  //     setLikeId(Likes);
-  //   });
-  // }, []);
-
   //좋아요 함수
   const [likeCount, setLikeCount] = useState<any>(0);
   const [likedByCurrentUser, setLikedByCurrentUser] = useState<any>(false);
 
   const handleLikeClick = async () => {
+    //로그인한 유저의 아이디
     const currentUserUid = authService?.currentUser?.uid;
+    //리뷰의 아이디
     const contentsRef = doc(db, "reviews", item.id);
 
     try {
@@ -109,23 +96,24 @@ function Comment({ item }: any) {
         if (!commentDoc.exists()) {
           throw "Document does not exist!";
         }
-
+        //좋아요누른 유저의리스트
         let likeUserList = Object.values(commentDoc.data().likeuser);
+        //좋아요숫자
         let likeCount = commentDoc.data().like;
 
         if (likeUserList.includes(currentUserUid)) {
+          // 리스트에 유저의 아이디가 있으면 카운트를 -1
           likeUserList = likeUserList.filter((e: any) => e !== currentUserUid);
           likeCount--;
         } else {
+          // 리스트에 유저의 아이디가 없으면 카운트를 +1
           likeUserList.push(currentUserUid);
           likeCount++;
         }
-
         transaction.update(contentsRef, {
           likeuser: likeUserList,
           like: likeCount,
         });
-
         setLikeCount(likeCount);
         setLikedByCurrentUser(likeUserList.includes(currentUserUid));
       });
