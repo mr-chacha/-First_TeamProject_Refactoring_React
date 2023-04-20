@@ -8,18 +8,18 @@ import {
   collection,
   deleteDoc,
   doc,
+  getFirestore,
   onSnapshot,
   orderBy,
   query,
+  runTransaction,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { authService, db } from "../../FireBase";
-import { uuidv4 } from "@firebase/util";
 import { formatDate } from "../../utils/Data";
 import Comments from "./Comments";
-import { LikeIcon } from "./LikeIcon";
-function Comment({ item, id }: any) {
+
+function Comment({ item }: any) {
   //유저의 아이디
   const heartRef = useRef<any>();
   //댓글아이디
@@ -80,94 +80,86 @@ function Comment({ item, id }: any) {
     return;
   };
 
-  //파이어베이스에서 불러온 좋아요리스트
-  const [likeId, setLikeId] = useState<any>();
+  // 좋아요 불러오기
+  // useEffect(() => {
+  //   const likeCounts = query(collection(db, "Like"));
+  //   onSnapshot(likeCounts, (snapshot) => {
+  //     const Likes = snapshot.docs.map((doc: any) => {
+  //       const like = {
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       };
+  //       return like;
+  //     });
+  //     setLikeId(Likes);
+  //   });
+  // }, []);
 
-  //좋아요의 아이디
-  const likeIds = likeId?.map((id: any) => id?.cId);
+  //좋아요 함수
+  const [likeCount, setLikeCount] = useState<any>(0);
+  const [likedByCurrentUser, setLikedByCurrentUser] = useState<any>(false);
 
-  const likeIdssss = likeId?.map((id: any) => id?.id);
+  const handleLikeClick = async () => {
+    const currentUserUid = authService?.currentUser?.uid;
+    const contentsRef = doc(db, "reviews", item.id);
 
-  //좋아요의 아이디와 포스트의 cId랑 같은거만 분리해줌
-  const like = likeIds?.filter((id: any) => id === item?.cId);
-  //분리해준거를 카운트해줌
-  const likeCount = like?.length;
-  //좋아요 누른아이디
-  const likeUserIds = likeId?.map((id: any) => id?.userId);
+    try {
+      await runTransaction(db, async (transaction) => {
+        const commentDoc = await transaction.get(contentsRef);
+        if (!commentDoc.exists()) {
+          throw "Document does not exist!";
+        }
 
-  //좋아요추가하기함수
-  const likeAdd = (): any => {
-    if (!authService?.currentUser) {
-      alert("로그인후 사용 가능합니다");
-      return;
-    } else {
-      const userId = authService.currentUser?.uid;
-      const likeRef = collection(db, "Like");
-      setDoc(doc(likeRef), {
-        displayName: authService.currentUser?.displayName,
-        userId,
-        cId: item?.cId,
+        let likeUserList = Object.values(commentDoc.data().likeuser);
+        let likeCount = commentDoc.data().like;
+
+        if (likeUserList.includes(currentUserUid)) {
+          likeUserList = likeUserList.filter((e: any) => e !== currentUserUid);
+          likeCount--;
+        } else {
+          likeUserList.push(currentUserUid);
+          likeCount++;
+        }
+
+        transaction.update(contentsRef, {
+          likeuser: likeUserList,
+          like: likeCount,
+        });
+
+        setLikeCount(likeCount);
+        setLikedByCurrentUser(likeUserList.includes(currentUserUid));
       });
-      return;
+    } catch (error) {
+      console.log("Transaction failed: ", error);
     }
   };
 
-  // 좋아요 불러오기
-  useEffect(() => {
-    const likeCounts = query(collection(db, "Like"));
-    onSnapshot(likeCounts, (snapshot) => {
-      const Likes = snapshot.docs.map((doc: any) => {
-        const like = {
-          id: doc.id,
-          ...doc.data(),
-        };
-        return like;
-      });
-      setLikeId(Likes);
-    });
-  }, []);
-
-  //좋아요 삭제
-  const Delete = async (id: any) => {
-    await deleteDoc(doc(db, "Like", id));
-    return;
-  };
-  const test = () => {
-    likeId?.filter((c: any) => c.cId === commentId).map((i: any) => {});
-  };
   return (
     <>
       <CommentLayout>
         <IconBox2>
           <span>
             <>
-              <FontAwesomeIcon
-                onClick={() => {
-                  likeId
-                    ?.filter((c: any) => c.cId === commentId)
-                    .map((i: any) => {
-                      if (i.userId === authService.currentUser?.uid) {
-                        Delete(i.id);
-                        return;
-                      }
-                    });
-                }}
-                // onClick={likeAdd}
-                icon={faHeart}
-                ref={heartRef}
-                style={{
-                  position: "relative",
-                  cursor: "pointer",
-                  marginTop: "10px",
-                  marginRight: "3px",
-                  color: "red",
-                }}
-              />
-              좋아요{likeCount}
+              <span ref={heartRef}>
+                좋아요{item.like}
+                <FontAwesomeIcon
+                  onClick={handleLikeClick}
+                  icon={faHeart}
+                  ref={heartRef}
+                  style={{
+                    position: "relative",
+                    cursor: "pointer",
+                    marginTop: "10px",
+                    marginRight: "3px",
+                    color: "red",
+                  }}
+                />
+              </span>
+              {/* {likeCount} */}
             </>
           </span>
 
-          {/* 댓글달기 버튼*/}
+          {/* 댓글달기 버튼 */}
           <span onClick={commetsAdd} style={{ cursor: "pointer" }}>
             <FontAwesomeIcon
               icon={faComment}
@@ -201,13 +193,7 @@ function Comment({ item, id }: any) {
         //Content의 cId랑 Comment의 cid가 같읕거만 보여주게 필터를 걸었음
         .filter((c: any) => c.cid === commentId)
         .map((comment: any) => {
-          return (
-            <Comments
-              comment={comment}
-              key={comment?.id}
-              likeUserIds={likeUserIds}
-            />
-          );
+          return <Comments comment={comment} key={comment?.id} />;
         })}
     </>
   );

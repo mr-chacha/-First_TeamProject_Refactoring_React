@@ -18,7 +18,7 @@ import Contents from "../Component/Contents/Contents";
 import { formatDate } from "../utils/Data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "react-query";
+
 function MainPage() {
   const commentId = uuidv4();
   //닉네임
@@ -31,6 +31,7 @@ function MainPage() {
   //content 추가하기
   const contentRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState("");
+
   const [contents, setContents] = useState([
     {
       displayName: "",
@@ -39,6 +40,8 @@ function MainPage() {
       uuid: "",
       profileImg: "",
       img: "",
+      like: 0,
+      likeuser: "",
     },
   ]);
 
@@ -87,6 +90,8 @@ function MainPage() {
       profileImg: authService.currentUser?.photoURL,
       img: "",
       cId: commentId,
+      like: 0,
+      likeuser: "",
     });
     return;
   };

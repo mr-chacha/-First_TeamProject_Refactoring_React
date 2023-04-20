@@ -10,6 +10,7 @@ export default function Comments({ comment }: any) {
   const commentsRef = useRef<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [comments, setComments] = useState("");
+
   //댓글삭제하기
   const DeleteContent = async (Id: any) => {
     await deleteDoc(doc(db, "comment", Id));

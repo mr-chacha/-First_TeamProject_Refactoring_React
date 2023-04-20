@@ -1,33 +1,8 @@
 import styled from "styled-components";
-
 import ContentsHeader from "./ContentsHeader";
 import Comment from "../Comment/Comment";
-import { useEffect, useState } from "react";
-import { authService, db } from "../../FireBase";
-import { collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
+
 export default function Contents({ item }: any) {
-  const [likes, setLikeId] = useState<any>();
-
-  // 좋아요 불러오기
-  useEffect(() => {
-    const likeCounts = query(collection(db, "Like"));
-    onSnapshot(likeCounts, (snapshot) => {
-      const Likes = snapshot.docs.map((doc: any) => {
-        const like = {
-          id: doc.id,
-          ...doc.data(),
-        };
-        return like;
-      });
-      setLikeId(Likes);
-    });
-  }, []);
-
-  // const add: any = likes?.map((id: any) => {
-  //   return add;
-  // });
-  // console.log("add", add);
-
   return (
     <>
       {/*컨텐츠 레이아웃 */}
@@ -36,7 +11,6 @@ export default function Contents({ item }: any) {
           {/* 컨텐츠 수정 삭제 헤더*/}
           <ContentsHeader item={item} />
           {/* 댓글 부분*/}
-
           <Comment item={item} />
         </ContentsBox>
       </ContentsLayout>
