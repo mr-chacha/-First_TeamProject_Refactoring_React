@@ -100,7 +100,7 @@ function MainPage(): JSX.Element {
       content,
       createdAt: date,
       profileImg: authService.currentUser?.photoURL,
-      img: "",
+      img: attachment,
       cId: commentId,
       like: 0,
       likeuser: "",
@@ -111,7 +111,7 @@ function MainPage(): JSX.Element {
   //input placeholder
   const hello = `${nicName} 님안녕하세요`;
   // 사진등록
-  const [attachment, setAttachment] = useState<string>("");
+  const [attachment, setAttachment] = useState<string>();
 
   // 파일 업로드 input을 통해 업로드한 이미지를 DataURL로 변환
   const onChangeProfileImg = (event: React.ChangeEvent<HTMLInputElement>) => {
