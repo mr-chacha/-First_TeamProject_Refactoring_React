@@ -10,13 +10,17 @@ function Router() {
   return (
     <BrowserRouter>
       <Layout>
-        <Header />
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="Login" element={<LoginPage />} />
-          <Route path="Signup" element={<SignupPage />} />
-          <Route path="MyPage" element={<Mypage />} />
-        </Routes>
+        <div>
+          <Header />
+        </div>
+        <div style={{ paddingTop: "80px" }}>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="Login" element={<LoginPage />} />
+            <Route path="Signup" element={<SignupPage />} />
+            <Route path="MyPage" element={<Mypage />} />
+          </Routes>
+        </div>
       </Layout>
       <Footer />
     </BrowserRouter>
