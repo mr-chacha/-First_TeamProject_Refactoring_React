@@ -32,6 +32,7 @@ function Header(): JSX.Element {
   return (
     <Layout>
       <Headerstyle onClick={gotoHone}>뉴스피드</Headerstyle>
+
       <div style={{ marginRight: "20px" }}>
         {authService?.currentUser ? (
           <ProfileImg src={ProfilPhoto} onClick={ModalOpen} />
@@ -59,7 +60,7 @@ const Headerstyle = styled.h1`
 
 const Layout = styled.div`
   position: fixed;
-  opacity: 90%;
+  /* opacity: 90%; */
   width: 100%;
   height: 130px;
   background-color: white;

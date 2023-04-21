@@ -147,7 +147,6 @@ function ContentsHeader({ item }: CommentItem) {
         value={contents}
         onChange={onChangeContent}
       />
-      {contents}
     </>
   );
 }
