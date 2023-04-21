@@ -100,7 +100,7 @@ function MainPage(): JSX.Element {
       content,
       createdAt: date,
       profileImg: authService.currentUser?.photoURL,
-      img: "",
+      img: attachment,
       cId: commentId,
       like: 0,
       likeuser: "",
@@ -110,6 +110,24 @@ function MainPage(): JSX.Element {
 
   //input placeholder
   const hello = `${nicName} 님안녕하세요`;
+  // 사진등록
+  const [attachment, setAttachment] = useState<string>();
+
+  // 파일 업로드 input을 통해 업로드한 이미지를 DataURL로 변환
+  const onChangeProfileImg = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+    if (event.target.files) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+    reader.onloadend = (finishedEvent) => {
+      const PhotoURL = finishedEvent.target?.result;
+      if (typeof PhotoURL === "string") {
+        setAttachment(PhotoURL);
+      }
+    };
+    console.log("attachment", attachment);
+  };
+
   return (
     <HomePageLayout>
       {/* 로그인된 유저일때 인풋이 보이고 */}
@@ -130,17 +148,25 @@ function MainPage(): JSX.Element {
             {/* 글 등록 아이콘*/}
             <InputBody>
               <IconSpan>
-                <FontAwesomeIcon
-                  style={{
-                    // position: "relative",
-                    cursor: "pointer",
-                    fontSize: "35px",
-                    marginRight: "8px",
-                  }}
-                  icon={faImage}
-                />
-                Image
+                <label>
+                  <input
+                    type="file"
+                    onChange={onChangeProfileImg}
+                    style={{ display: "none" }}
+                  />
+                  <FontAwesomeIcon
+                    style={{
+                      // position: "relative",
+                      cursor: "pointer",
+                      fontSize: "35px",
+                      marginRight: "8px",
+                    }}
+                    icon={faImage}
+                  />
+                  Image
+                </label>
               </IconSpan>
+
               <IconSpan onClick={addContet}>
                 <FontAwesomeIcon
                   style={{

@@ -24,6 +24,7 @@ export default function ProfileImage() {
     };
     console.log(attachment);
   };
+
   //firebase Storage에 프로필 이미지 저장 및 currentUser 정보에 반영
   const storeImg = async () => {
     if (attachment) {

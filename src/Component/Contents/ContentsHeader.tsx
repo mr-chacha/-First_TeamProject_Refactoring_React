@@ -90,6 +90,8 @@ function ContentsHeader({ item }: CommentItem) {
             </ContentHeader>
             {/* 등록된 컨텐츠*/}
             <Contnet ref={contentRef}> {item.content}</Contnet>
+
+            <PostImg src={item?.img} />
           </div>
         </HeaderBox>
         {/* 같은 id인경우에만 수정 삭제 아이콘 보이게하기 */}
@@ -147,12 +149,15 @@ function ContentsHeader({ item }: CommentItem) {
         value={contents}
         onChange={onChangeContent}
       />
-      {contents}
     </>
   );
 }
 
 export default ContentsHeader;
+const PostImg = styled.img`
+  max-width: 90%;
+  height: auto;
+`;
 const IconSpan = styled.span`
   :hover {
     color: #2e77ee;

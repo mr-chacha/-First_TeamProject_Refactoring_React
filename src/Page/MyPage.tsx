@@ -76,9 +76,8 @@ function Mypage() {
       >
         닉네임변경 완료
       </button>
-      <div></div>
+
       <ProfileImage />
-      <div></div>
     </Layout>
   );
 }

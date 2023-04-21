@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ContentsHeader from "./ContentsHeader";
 import Comment from "../Comment/Comment";
+import { log } from "console";
 
 export default function Contents({ item }: any) {
   return (
