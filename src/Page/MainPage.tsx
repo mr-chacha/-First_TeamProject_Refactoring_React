@@ -1,8 +1,7 @@
-import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { uuidv4 } from "@firebase/util";
-import { db, storage } from "../FireBase";
+import { db } from "../FireBase";
 import { useRef } from "react";
 import { authService } from "../FireBase";
 import {
@@ -17,22 +16,33 @@ import { useEffect } from "react";
 import Contents from "../Component/Contents/Contents";
 import { formatDate } from "../utils/Data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComment, faTrash } from "@fortawesome/free-solid-svg-icons";
-
-function MainPage() {
+import { faComment, faImage } from "@fortawesome/free-solid-svg-icons";
+import defaultImg from ".././image/img1.png";
+type ContentItem = {
+  displayName: string;
+  content: string;
+  id: string;
+  uuid: string;
+  profileImg: string;
+  img: string;
+  like: number;
+  likeuser: string;
+};
+function MainPage(): JSX.Element {
   const commentId = uuidv4();
   //닉네임
   const nicName = authService.currentUser?.displayName;
+
   //프로필 사진
   const ProfilPhoto = authService.currentUser?.photoURL;
 
   //시간
-  const date = new Date().toString().slice(0, 25);
+  const date: string = new Date().toString().slice(0, 25);
   //content 추가하기
   const contentRef = useRef<HTMLInputElement>(null);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState<string>("");
 
-  const [contents, setContents] = useState([
+  const [contents, setContents] = useState<ContentItem[]>([
     {
       displayName: "",
       content: "",
@@ -46,7 +56,7 @@ function MainPage() {
   ]);
 
   // 수정
-  const contentChange = (event: any) => {
+  const contentChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setContent(event.target.value);
   };
   // content 파이어베이스에서 가져오기
@@ -66,7 +76,9 @@ function MainPage() {
   }, []);
 
   // content 파에어베이스에 추가하기
-  const addContet = (event: any) => {
+  const addContet = (
+    event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLElement>
+  ): void => {
     event.preventDefault();
     //로그인 안했으면 추가못함
     if (!authService.currentUser) {
@@ -105,23 +117,43 @@ function MainPage() {
         <Mainlayout>
           <InputBox onSubmit={addContet}>
             {/* 프로필 이지 없을때 디폴트 이미지 보여주기 */}
-            <ProfileImg src={ProfilPhoto ? ProfilPhoto : "default-image-url"} />
-            {/* 글 등록 인풋*/}
-            <Inputs
-              placeholder={hello}
-              value={content}
-              onChange={contentChange}
-              ref={contentRef}
-            />
+            <InputHeader>
+              <ProfileImg src={ProfilPhoto ? ProfilPhoto : defaultImg} />
+              {/* 글 등록 인풋*/}
+              <Inputs
+                placeholder={hello}
+                value={content}
+                onChange={contentChange}
+                ref={contentRef}
+              />
+            </InputHeader>
             {/* 글 등록 아이콘*/}
-            <FontAwesomeIcon
-              style={{
-                position: "relative",
-                cursor: "pointer",
-              }}
-              icon={faComment}
-              onClick={addContet}
-            />
+            <InputBody>
+              <IconSpan>
+                <FontAwesomeIcon
+                  style={{
+                    // position: "relative",
+                    cursor: "pointer",
+                    fontSize: "35px",
+                    marginRight: "8px",
+                  }}
+                  icon={faImage}
+                />
+                Image
+              </IconSpan>
+              <IconSpan onClick={addContet}>
+                <FontAwesomeIcon
+                  style={{
+                    // position: "relative",
+                    cursor: "pointer",
+                    fontSize: "35px",
+                    marginRight: "8px",
+                  }}
+                  icon={faComment}
+                />
+                send{" "}
+              </IconSpan>
+            </InputBody>
           </InputBox>
           {/* 등록된 글 컴포넌트*/}
           {contents.map((item) => {
@@ -145,6 +177,32 @@ function MainPage() {
 }
 
 export default MainPage;
+const IconSpan = styled.span`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  padding-right: 30px;
+  padding-left: 30px;
+  &:hover {
+    color: #2e77ee;
+  }
+`;
+const InputHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 50%;
+`;
+const InputBody = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  width: 100%;
+  justify-content: space-between;
+  height: 50%;
+`;
 const HomePageLayout = styled.div`
   width: 100%;
   height: 90%;
@@ -159,11 +217,8 @@ const Mainlayout = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 80px 0px 50px 0px;
-  width: 900px;
+  width: 1500px;
   height: 100%;
-`;
-const MainTitle = styled.div`
-  font-size: 20px;
 `;
 
 const MainBox = styled.div`
@@ -178,38 +233,44 @@ const MainBox = styled.div`
 `;
 
 const InputBox = styled.form`
-  box-shadow: 1px 2px 1px 1px #bdbdbd;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin-top: 20px;
-  border: 1px solid black;
   border-radius: 15px;
   background-color: white;
   width: 50%;
-  height: 50px;
+  height: 120px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 `;
 
 const Inputs = styled.input`
+  display: flex;
+  justify-content: center;
+  padding-left: 20px;
+  font-size: 20px;
   width: 80%;
-  height: 80%;
-  background-color: #f7f7f7;
+  height: 100%;
+  background-color: #efefef;
   border: none;
   border-radius: 50px;
   margin: 0px 20px 0px 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: #e3e3e3;
+  }
 `;
 
-const InPutBtn = styled.button``;
 const ContentsBox = styled.div`
   width: 100%;
   height: 100%;
 `;
 const ProfileImg = styled.img`
-  position: relative;
+  /* position: relative; */
   margin: auto;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border: 1px solid #d3d3d3;
   border-radius: 50px;
 `;

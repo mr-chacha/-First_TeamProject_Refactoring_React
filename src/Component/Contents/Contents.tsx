@@ -19,21 +19,21 @@ export default function Contents({ item }: any) {
 }
 
 const ContentsLayout = styled.div`
-  width: 900px;
-  height: 90%;
+  width: 1500px;
+  height: 100%;
   display: flex;
   justify-content: center;
+  margin: 10px;
 `;
 
 const ContentsBox = styled.div`
-  box-shadow: 1px 2px 1px 1px #bdbdbd;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin-top: 20px;
-  border: 1px solid black;
   border-radius: 15px;
   background-color: white;
   width: 50%;
-  height: 50%;
+  height: 100%;
   display: inline;
 `;
 

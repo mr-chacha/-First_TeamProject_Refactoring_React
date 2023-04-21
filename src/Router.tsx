@@ -10,13 +10,17 @@ function Router() {
   return (
     <BrowserRouter>
       <Layout>
-        <Header />
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="Login" element={<LoginPage />} />
-          <Route path="Signup" element={<SignupPage />} />
-          <Route path="MyPage" element={<Mypage />} />
-        </Routes>
+        <div style={{ position: "fixed" }}>
+          <Header />
+        </div>
+        <div style={{ paddingTop: "80px" }}>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="Login" element={<LoginPage />} />
+            <Route path="Signup" element={<SignupPage />} />
+            <Route path="MyPage" element={<Mypage />} />
+          </Routes>
+        </div>
       </Layout>
       <Footer />
     </BrowserRouter>
@@ -25,6 +29,6 @@ function Router() {
 
 export default Router;
 const Layout = styled.div`
-  width: 1920;
-  height: 1020;
+  width: 100%;
+  height: 100%;
 `;
