@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
@@ -12,8 +12,8 @@ function LoginPage() {
   const [userPw, setUserPw] = useState("");
   const userId_input = useRef<HTMLInputElement>(null);
   const userPw_input = useRef<HTMLInputElement>(null);
-  const userId_msg = useRef<HTMLInputElement>(null);
-  const userPw_msg = useRef<HTMLInputElement>(null);
+  const userId_msg = useRef<HTMLParagraphElement>(null);
+  const userPw_msg = useRef<HTMLParagraphElement>(null);
 
   const navigate = useNavigate();
   const gotoBack = () => {
@@ -24,7 +24,7 @@ function LoginPage() {
   };
 
   //로그인 유저 핸들러
-  const LoginUser = (event: any) => {
+  const LoginUser = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!userId) {
       alert("아이디를 입력하세요");
@@ -50,12 +50,13 @@ function LoginPage() {
       // navigate("/");
     }
   };
-
-  const UserIdHandler = (event: any) => {
+  //유저아이디 온체인지
+  const UserIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserId(event.target.value);
   };
-  const UserPwHandler = (event: any) => {
-    setUserPw(event.target.value);
+  //유저비번 온체인지
+  const UserPwHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserPw(event.target?.value);
   };
 
   return (

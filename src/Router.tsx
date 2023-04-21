@@ -10,7 +10,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Layout>
-        <div>
+        <div style={{ position: "fixed" }}>
           <Header />
         </div>
         <div style={{ paddingTop: "80px" }}>
@@ -29,6 +29,6 @@ function Router() {
 
 export default Router;
 const Layout = styled.div`
-  width: 1920;
-  height: 1020;
+  width: 100%;
+  height: 100%;
 `;

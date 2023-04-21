@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useRef } from "react";
 import { useState } from "react";
@@ -6,9 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 import {
   collection,
-  deleteDoc,
   doc,
-  getFirestore,
   onSnapshot,
   orderBy,
   query,
@@ -19,7 +17,24 @@ import { authService, db } from "../../FireBase";
 import { formatDate } from "../../utils/Data";
 import Comments from "./Comments";
 
-function Comment({ item }: any) {
+import defaultImg from "../../image/img1.png";
+
+// item Type지정
+interface CommentItem {
+  item: {
+    authId: string;
+    cId: string;
+    content: string;
+    createdAt: string;
+    displayName: string;
+    id: string;
+    img: string;
+    like: number;
+    likeuser: string;
+    profileImg: string;
+  };
+}
+function Comment({ item }: CommentItem) {
   //유저의 아이디
   const heartRef = useRef<any>();
   //댓글아이디
@@ -27,7 +42,7 @@ function Comment({ item }: any) {
   //시간
   const date = new Date().toString().slice(0, 25);
   //댓글달기
-  const CommentRef = useRef<any>(null);
+  const CommentRef = useRef<HTMLInputElement>(null);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<any>([
     {
@@ -81,8 +96,8 @@ function Comment({ item }: any) {
   };
 
   //좋아요 함수
-  const [likeCount, setLikeCount] = useState<any>(0);
-  const [likedByCurrentUser, setLikedByCurrentUser] = useState<any>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
+  const [likedByCurrentUser, setLikedByCurrentUser] = useState<boolean>(false);
 
   const handleLikeClick = async () => {
     //로그인한 유저의 아이디
@@ -121,38 +136,37 @@ function Comment({ item }: any) {
       console.log("Transaction failed: ", error);
     }
   };
-
+  //좋아요가 0 이면 안보이면 0이 아닌경우만 보여주게
+  const likecount = item.like === 0 ? "" : item.like;
+  //프로필 사진
+  const ProfilPhoto = authService.currentUser?.photoURL;
   return (
     <>
       <CommentLayout>
         <IconBox2>
-          <span>
-            <>
-              <span ref={heartRef}>
-                좋아요{item.like}
-                <FontAwesomeIcon
-                  onClick={handleLikeClick}
-                  icon={faHeart}
-                  ref={heartRef}
-                  style={{
-                    position: "relative",
-                    cursor: "pointer",
-                    marginTop: "10px",
-                    marginRight: "3px",
-                    color: "red",
-                  }}
-                />
-              </span>
-              {/* {likeCount} */}
-            </>
-          </span>
+          <>
+            <IconSpan ref={heartRef} onClick={handleLikeClick}>
+              <FontAwesomeIcon
+                icon={faHeart}
+                style={{
+                  // position: "relative",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                  marginRight: "3px",
+                  color: "red",
+                }}
+              />
+              좋아요 {likecount}
+            </IconSpan>
+            {/* {likeCount} */}
+          </>
 
           {/* 댓글달기 버튼 */}
-          <span onClick={commetsAdd} style={{ cursor: "pointer" }}>
+          <IconSpan onClick={commetsAdd}>
             <FontAwesomeIcon
               icon={faComment}
               style={{
-                position: "relative",
+                // position: "relative",
                 cursor: "pointer",
                 marginTop: "10px",
                 marginRight: "3px",
@@ -160,14 +174,14 @@ function Comment({ item }: any) {
               }}
             />
             댓글달기
-          </span>
+          </IconSpan>
         </IconBox2>
         {/* 로그인된 유저일때만 댓글입력창이 보이게*/}
         <CommentsBox>
           {/*프로필 이미지*/}
-          <ProfileImg src={item.profileImg} />
+          <ProfileImg src={ProfilPhoto ? ProfilPhoto : defaultImg} />
           {/*댓글 입력창*/}
-          <form onSubmit={commetsAdd}>
+          <form onSubmit={commetsAdd} style={{ width: "92%", height: "40px" }}>
             <CommentsInput
               ref={CommentRef}
               placeholder="댓글을 입력해주세요."
@@ -188,43 +202,50 @@ function Comment({ item }: any) {
 }
 
 export default Comment;
-
+const IconSpan = styled.span`
+  cursor: pointer;
+  margin: 5px 30px;
+`;
 const CommentLayout = styled.div`
   width: 100%;
   height: 90%;
 `;
 
 const IconBox2 = styled.span`
+  font-size: 20px;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  border-top: 1px solid #cccccc;
 `;
 const CommentsBox = styled.div`
   height: 90%;
   width: 100%;
-  border-top: 0.1px solid #999;
+  border-top: 0.1px solid #cccccc;
   margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 const CommentsInput = styled.input`
+  font-size: 20px;
   border: none;
-  background-color: #f3f3f3;
-  width: 400px;
-  height: 25px;
+  background-color: #efefef;
+  width: 95%;
+  height: 100%;
   border-radius: 20px;
   margin-top: 5px;
   padding-left: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: #e3e3e3;
+  }
 `;
 
 const ProfileImg = styled.img`
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
-
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border: 1px solid #d3d3d3;
   border-radius: 50%;
 `;

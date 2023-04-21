@@ -1,8 +1,7 @@
-import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { uuidv4 } from "@firebase/util";
-import { db, storage } from "../FireBase";
+import { db } from "../FireBase";
 import { useRef } from "react";
 import { authService } from "../FireBase";
 import {
@@ -17,27 +16,33 @@ import { useEffect } from "react";
 import Contents from "../Component/Contents/Contents";
 import { formatDate } from "../utils/Data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faComment,
-  faImage,
-  faMessage,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-
-function MainPage() {
+import { faComment, faImage } from "@fortawesome/free-solid-svg-icons";
+import defaultImg from ".././image/img1.png";
+type ContentItem = {
+  displayName: string;
+  content: string;
+  id: string;
+  uuid: string;
+  profileImg: string;
+  img: string;
+  like: number;
+  likeuser: string;
+};
+function MainPage(): JSX.Element {
   const commentId = uuidv4();
   //닉네임
   const nicName = authService.currentUser?.displayName;
+
   //프로필 사진
   const ProfilPhoto = authService.currentUser?.photoURL;
 
   //시간
-  const date = new Date().toString().slice(0, 25);
+  const date: string = new Date().toString().slice(0, 25);
   //content 추가하기
   const contentRef = useRef<HTMLInputElement>(null);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState<string>("");
 
-  const [contents, setContents] = useState([
+  const [contents, setContents] = useState<ContentItem[]>([
     {
       displayName: "",
       content: "",
@@ -51,7 +56,7 @@ function MainPage() {
   ]);
 
   // 수정
-  const contentChange = (event: any) => {
+  const contentChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setContent(event.target.value);
   };
   // content 파이어베이스에서 가져오기
@@ -71,7 +76,9 @@ function MainPage() {
   }, []);
 
   // content 파에어베이스에 추가하기
-  const addContet = (event: any) => {
+  const addContet = (
+    event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLElement>
+  ): void => {
     event.preventDefault();
     //로그인 안했으면 추가못함
     if (!authService.currentUser) {
@@ -111,9 +118,7 @@ function MainPage() {
           <InputBox onSubmit={addContet}>
             {/* 프로필 이지 없을때 디폴트 이미지 보여주기 */}
             <InputHeader>
-              <ProfileImg
-                src={ProfilPhoto ? ProfilPhoto : "default-image-url"}
-              />
+              <ProfileImg src={ProfilPhoto ? ProfilPhoto : defaultImg} />
               {/* 글 등록 인풋*/}
               <Inputs
                 placeholder={hello}
@@ -127,7 +132,7 @@ function MainPage() {
               <IconSpan>
                 <FontAwesomeIcon
                   style={{
-                    position: "relative",
+                    // position: "relative",
                     cursor: "pointer",
                     fontSize: "35px",
                     marginRight: "8px",
@@ -136,22 +141,20 @@ function MainPage() {
                 />
                 Image
               </IconSpan>
-              <IconSpan>
+              <IconSpan onClick={addContet}>
                 <FontAwesomeIcon
                   style={{
-                    position: "relative",
+                    // position: "relative",
                     cursor: "pointer",
                     fontSize: "35px",
                     marginRight: "8px",
                   }}
                   icon={faComment}
-                  onClick={addContet}
                 />
                 send{" "}
               </IconSpan>
             </InputBody>
           </InputBox>
-
           {/* 등록된 글 컴포넌트*/}
           {contents.map((item) => {
             return <Contents item={item} key={item?.id} />;
@@ -233,7 +236,6 @@ const InputBox = styled.form`
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin-top: 20px;
-
   border-radius: 15px;
   background-color: white;
   width: 50%;
@@ -265,7 +267,7 @@ const ContentsBox = styled.div`
   height: 100%;
 `;
 const ProfileImg = styled.img`
-  position: relative;
+  /* position: relative; */
   margin: auto;
   width: 60px;
   height: 60px;
