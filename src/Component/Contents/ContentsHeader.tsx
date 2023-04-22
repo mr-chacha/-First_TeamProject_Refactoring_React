@@ -90,6 +90,7 @@ function ContentsHeader({ item }: CommentItem) {
             </ContentHeader>
             {/* 등록된 컨텐츠*/}
             <Contnet ref={contentRef}> {item.content}</Contnet>
+
             <div
               style={{
                 display: "flex",
@@ -99,7 +100,7 @@ function ContentsHeader({ item }: CommentItem) {
                 marginLeft: "-20px",
               }}
             >
-              {/* <PostImg src={item?.img} /> */}
+              <PostImg src={item?.img} />
             </div>
           </div>
         </HeaderBox>
