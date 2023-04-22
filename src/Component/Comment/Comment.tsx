@@ -18,6 +18,7 @@ import { formatDate } from "../../utils/Data";
 import Comments from "./Comments";
 
 import defaultImg from "../../image/img1.png";
+import { log } from "console";
 
 // item Type지정
 interface CommentItem {
@@ -140,6 +141,8 @@ function Comment({ item }: any) {
   const likecount = item.like === 0 ? "" : item.like;
   //프로필 사진
   const ProfilPhoto = authService.currentUser?.photoURL;
+  //좋아요 누른 유저인지아닌지 판단
+  const likeuser = item.likeuser.includes(authService.currentUser?.uid);
 
   return (
     <>
@@ -155,11 +158,11 @@ function Comment({ item }: any) {
                   cursor: "pointer",
                   marginTop: "10px",
                   marginRight: "3px",
-                  color: "gray",
+
+                  color: likeuser ? "red" : "gray",
                 }}
               />
               좋아요 {likecount}
-              <br />
             </IconSpan>
 
             {/* {likeCount} */}
@@ -195,12 +198,6 @@ function Comment({ item }: any) {
           </form>
         </CommentsBox>
       </CommentLayout>
-      {comments
-        //Content의 cId랑 Comment의 cid가 같읕거만 보여주게 필터를 걸었음
-        .filter((c: any) => c.cid === commentId)
-        .map((comment: any) => {
-          return <Comments comment={comment} key={comment?.id} />;
-        })}
     </>
   );
 }

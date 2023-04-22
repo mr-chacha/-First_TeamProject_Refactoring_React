@@ -100,7 +100,7 @@ function MainPage(): JSX.Element {
       content,
       createdAt: date,
       profileImg: authService.currentUser?.photoURL,
-      img: attachment,
+      img: attachment || null,
       cId: commentId,
       like: 0,
       likeuser: "",
@@ -127,9 +127,7 @@ function MainPage(): JSX.Element {
       }
     };
   };
-  const likeusers = contents.map((user: any) => user.likeuser);
 
-  console.log("likeusers", likeusers);
   return (
     <HomePageLayout>
       {/* 로그인된 유저일때 인풋이 보이고 */}
