@@ -30,11 +30,11 @@ interface CommentItem {
     id: string;
     img: string;
     like: number;
-    likeuser: string;
+    likeuser: any;
     profileImg: string;
   };
 }
-function Comment({ item }: CommentItem) {
+function Comment({ item }: any) {
   //유저의 아이디
   const heartRef = useRef<any>();
   //댓글아이디
@@ -140,24 +140,28 @@ function Comment({ item }: CommentItem) {
   const likecount = item.like === 0 ? "" : item.like;
   //프로필 사진
   const ProfilPhoto = authService.currentUser?.photoURL;
+
   return (
     <>
       <CommentLayout>
         <IconBox2>
           <>
-            <IconSpan ref={heartRef} onClick={handleLikeClick}>
+            <IconSpan onClick={handleLikeClick}>
               <FontAwesomeIcon
+                ref={heartRef}
                 icon={faHeart}
                 style={{
                   // position: "relative",
                   cursor: "pointer",
                   marginTop: "10px",
                   marginRight: "3px",
-                  color: "red",
+                  color: "gray",
                 }}
               />
               좋아요 {likecount}
+              <br />
             </IconSpan>
+
             {/* {likeCount} */}
           </>
 
@@ -216,6 +220,7 @@ const IconBox2 = styled.span`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  border-top: 0.1px solid #cccccc;
 `;
 const CommentsBox = styled.div`
   height: 90%;

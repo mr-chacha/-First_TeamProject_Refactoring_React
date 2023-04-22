@@ -90,8 +90,17 @@ function ContentsHeader({ item }: CommentItem) {
             </ContentHeader>
             {/* 등록된 컨텐츠*/}
             <Contnet ref={contentRef}> {item.content}</Contnet>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "600px",
 
-            <PostImg src={item?.img} />
+                marginLeft: "-20px",
+              }}
+            >
+              {/* <PostImg src={item?.img} /> */}
+            </div>
           </div>
         </HeaderBox>
         {/* 같은 id인경우에만 수정 삭제 아이콘 보이게하기 */}
@@ -155,7 +164,9 @@ function ContentsHeader({ item }: CommentItem) {
 
 export default ContentsHeader;
 const PostImg = styled.img`
-  max-width: 90%;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  max-width: 80%;
   height: auto;
 `;
 const IconSpan = styled.span`
