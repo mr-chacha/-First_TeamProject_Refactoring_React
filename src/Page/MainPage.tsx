@@ -105,6 +105,7 @@ function MainPage(): JSX.Element {
       like: 0,
       likeuser: "",
     });
+    setAttachment("");
     return;
   };
 
@@ -125,9 +126,10 @@ function MainPage(): JSX.Element {
         setAttachment(PhotoURL);
       }
     };
-    console.log("attachment", attachment);
   };
+  const likeusers = contents.map((user: any) => user.likeuser);
 
+  console.log("likeusers", likeusers);
   return (
     <HomePageLayout>
       {/* 로그인된 유저일때 인풋이 보이고 */}
@@ -143,8 +145,20 @@ function MainPage(): JSX.Element {
                 value={content}
                 onChange={contentChange}
                 ref={contentRef}
-              />
+              />{" "}
             </InputHeader>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "600px",
+              }}
+            >
+              <InputImage
+                src={attachment}
+                style={{ marginTop: attachment ? "30px" : "0px" }}
+              />
+            </div>
             {/* 글 등록 아이콘*/}
             <InputBody>
               <IconSpan>
@@ -203,6 +217,10 @@ function MainPage(): JSX.Element {
 }
 
 export default MainPage;
+const InputImage = styled.img`
+  max-width: 80%;
+  height: auto;
+`;
 const IconSpan = styled.span`
   cursor: pointer;
   display: flex;
@@ -265,7 +283,8 @@ const InputBox = styled.form`
   border-radius: 15px;
   background-color: white;
   width: 50%;
-  height: 120px;
+  height: 100%;
+  /* height: 120px; */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -277,7 +296,7 @@ const Inputs = styled.input`
   padding-left: 20px;
   font-size: 20px;
   width: 80%;
-  height: 100%;
+  height: 60px;
   background-color: #efefef;
   border: none;
   border-radius: 50px;
