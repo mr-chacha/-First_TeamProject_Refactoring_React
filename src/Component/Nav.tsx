@@ -191,7 +191,5 @@ const Btn = styled.span`
   margin: 5px;
   &:hover {
     color: #2e77ee;
-    font-weight: 700;
-    font-size: 23px;
   }
 `;
