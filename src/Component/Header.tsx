@@ -80,10 +80,3 @@ const ProfileImg = styled.img`
   border-radius: 50%;
   cursor: pointer;
 `;
-const Modal = styled.div`
-  width: 100px;
-  height: 200px;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 20px;
-`;

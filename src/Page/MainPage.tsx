@@ -100,11 +100,12 @@ function MainPage(): JSX.Element {
       content,
       createdAt: date,
       profileImg: authService.currentUser?.photoURL,
-      img: attachment,
+      img: attachment || null,
       cId: commentId,
       like: 0,
       likeuser: "",
     });
+    setAttachment("");
     return;
   };
 
@@ -125,7 +126,6 @@ function MainPage(): JSX.Element {
         setAttachment(PhotoURL);
       }
     };
-    console.log("attachment", attachment);
   };
 
   return (
@@ -143,8 +143,20 @@ function MainPage(): JSX.Element {
                 value={content}
                 onChange={contentChange}
                 ref={contentRef}
-              />
+              />{" "}
             </InputHeader>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "600px",
+              }}
+            >
+              <InputImage
+                src={attachment}
+                style={{ marginTop: attachment ? "30px" : "0px" }}
+              />
+            </div>
             {/* 글 등록 아이콘*/}
             <InputBody>
               <IconSpan>
@@ -203,6 +215,10 @@ function MainPage(): JSX.Element {
 }
 
 export default MainPage;
+const InputImage = styled.img`
+  max-width: 80%;
+  height: auto;
+`;
 const IconSpan = styled.span`
   cursor: pointer;
   display: flex;
@@ -243,19 +259,13 @@ const Mainlayout = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 80px 0px 50px 0px;
-  width: 1500px;
+  /* width: 1500px; */
+  /* width: 100%; */
+  width: 100%;
   height: 100%;
-`;
-
-const MainBox = styled.div`
-  box-shadow: 1px 2px 1px 1px #bdbdbd;
-  padding: 20px;
-  margin-top: 20px;
-  border: 1px solid black;
-  border-radius: 15px;
-  background-color: white;
-  width: 50%;
-  height: 100px;
+  /* max-width: 50%;
+  min-width: 500px; */
+  background-color: red;
 `;
 
 const InputBox = styled.form`
@@ -264,11 +274,24 @@ const InputBox = styled.form`
   margin-top: 20px;
   border-radius: 15px;
   background-color: white;
-  width: 50%;
-  height: 120px;
+  width: 100%;
+  height: 100%;
+  /* height: 120px; */
   display: flex;
   align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 1920px) {
+    background-color: yellow;
+    width: 40%;
+  }
+  @media screen and (max-width: 790px) {
+    background-color: gray;
+    width: 80%;
+  }
+  @media screen and (max-width: 490px) {
+    background-color: green;
+    width: 90%;
+  }
 `;
 
 const Inputs = styled.input`
@@ -277,7 +300,7 @@ const Inputs = styled.input`
   padding-left: 20px;
   font-size: 20px;
   width: 80%;
-  height: 100%;
+  height: 60px;
   background-color: #efefef;
   border: none;
   border-radius: 50px;
@@ -293,19 +316,9 @@ const ContentsBox = styled.div`
   height: 100%;
 `;
 const ProfileImg = styled.img`
-  /* position: relative; */
   margin: auto;
   width: 60px;
   height: 60px;
   border: 1px solid #d3d3d3;
   border-radius: 50px;
-`;
-
-const Img = styled.img`
-  position: relative;
-  margin: auto;
-  width: 40px;
-  height: 40px;
-  border: 1px solid #d3d3d3;
-  border-radius: 50%;
 `;

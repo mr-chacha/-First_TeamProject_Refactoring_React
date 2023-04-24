@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   setPersistence,
   browserSessionPersistence,
+  reload,
 } from "firebase/auth";
 import { authService } from "../FireBase";
 import styled from "styled-components";
@@ -38,6 +39,7 @@ function LoginPage() {
         .then(() => {
           alert("로그인 되었습니다.");
           navigate("/");
+          window.location.reload();
         })
         .catch((error) => {
           const errorCode = error.code;

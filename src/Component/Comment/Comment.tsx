@@ -18,6 +18,7 @@ import { formatDate } from "../../utils/Data";
 import Comments from "./Comments";
 
 import defaultImg from "../../image/img1.png";
+import { log } from "console";
 
 // item Type지정
 interface CommentItem {
@@ -30,11 +31,11 @@ interface CommentItem {
     id: string;
     img: string;
     like: number;
-    likeuser: string;
+    likeuser: any;
     profileImg: string;
   };
 }
-function Comment({ item }: CommentItem) {
+function Comment({ item }: any) {
   //유저의 아이디
   const heartRef = useRef<any>();
   //댓글아이디
@@ -140,24 +141,30 @@ function Comment({ item }: CommentItem) {
   const likecount = item.like === 0 ? "" : item.like;
   //프로필 사진
   const ProfilPhoto = authService.currentUser?.photoURL;
+  //좋아요 누른 유저인지아닌지 판단
+  const likeuser = item.likeuser.includes(authService.currentUser?.uid);
+
   return (
     <>
       <CommentLayout>
         <IconBox2>
           <>
-            <IconSpan ref={heartRef} onClick={handleLikeClick}>
+            <IconSpan onClick={handleLikeClick}>
               <FontAwesomeIcon
+                ref={heartRef}
                 icon={faHeart}
                 style={{
                   // position: "relative",
                   cursor: "pointer",
                   marginTop: "10px",
                   marginRight: "3px",
-                  color: "red",
+
+                  color: likeuser ? "red" : "gray",
                 }}
               />
               좋아요 {likecount}
             </IconSpan>
+
             {/* {likeCount} */}
           </>
 
@@ -191,12 +198,6 @@ function Comment({ item }: CommentItem) {
           </form>
         </CommentsBox>
       </CommentLayout>
-      {comments
-        //Content의 cId랑 Comment의 cid가 같읕거만 보여주게 필터를 걸었음
-        .filter((c: any) => c.cid === commentId)
-        .map((comment: any) => {
-          return <Comments comment={comment} key={comment?.id} />;
-        })}
     </>
   );
 }
@@ -216,6 +217,7 @@ const IconBox2 = styled.span`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  border-top: 0.1px solid #cccccc;
 `;
 const CommentsBox = styled.div`
   height: 90%;
