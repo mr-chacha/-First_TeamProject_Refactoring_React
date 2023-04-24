@@ -149,7 +149,7 @@ function MainPage(): JSX.Element {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                width: "600px",
+                width: "100%",
               }}
             >
               <InputImage
@@ -265,7 +265,16 @@ const Mainlayout = styled.div`
   height: 100%;
   /* max-width: 50%;
   min-width: 500px; */
-  background-color: red;
+
+  @media screen and (max-width: 1920px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 790px) {
+    width: 80%;
+  }
+  @media screen and (max-width: 490px) {
+    width: 90%;
+  }
 `;
 
 const InputBox = styled.form`
@@ -276,20 +285,18 @@ const InputBox = styled.form`
   background-color: white;
   width: 100%;
   height: 100%;
-  /* height: 120px; */
+  max-width: 1920px;
+
   display: flex;
   align-items: center;
   flex-direction: column;
   @media screen and (max-width: 1920px) {
-    background-color: yellow;
-    width: 40%;
+    width: 50%;
   }
   @media screen and (max-width: 790px) {
-    background-color: gray;
     width: 80%;
   }
   @media screen and (max-width: 490px) {
-    background-color: green;
     width: 90%;
   }
 `;

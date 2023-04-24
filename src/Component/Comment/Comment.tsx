@@ -198,6 +198,12 @@ function Comment({ item }: any) {
           </form>
         </CommentsBox>
       </CommentLayout>
+      {comments
+        //Content의 cId랑 Comment의 cid가 같읕거만 보여주게 필터를 걸었음
+        .filter((c: any) => c.cid === commentId)
+        .map((comment: any) => {
+          return <Comments comment={comment} key={comment?.id} />;
+        })}
     </>
   );
 }
