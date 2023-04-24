@@ -28,6 +28,14 @@ function Router() {
 }
 
 export default Router;
+
+const Layout2 = styled.div`
+  width: 1920px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const Layout = styled.div`
   width: 100%;
   height: 100%;
