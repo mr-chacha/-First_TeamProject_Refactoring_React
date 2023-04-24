@@ -168,17 +168,27 @@ const ProfileImg = styled.img`
   height: 70px;
   border-radius: 50%;
 `;
-const ProfileName = styled.div`
+const ProfileName = styled.p`
   font-size: 20px;
   margin-left: 10px;
   font-weight: 500;
+  @media screen and (max-width: 1920px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 790px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 490px) {
+    font-size: 15px;
+  }
 `;
-const Comment = styled.div`
+const Comment = styled.p`
   margin-top: 5px;
   font-size: 15px;
   margin-left: 10px;
   margin-right: 10px;
   font-weight: 400;
+  word-break: break-all;
 `;
 
 const CommentsTime = styled.p`
