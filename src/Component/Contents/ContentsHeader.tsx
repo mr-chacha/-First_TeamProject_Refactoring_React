@@ -72,85 +72,73 @@ function ContentsHeader({ item }: CommentItem) {
   return (
     <>
       <Header>
-        <HeaderBox>
-          {/* 프로필 이미지*/}
-          <ProfileImg
-            src={
-              item.profileImg === null || undefined
-                ? defaultImg
-                : item.profileImg
-            }
-          />
-          <div style={{ marginLeft: "10px" }}>
-            {/* 프로필 닉네임*/}
-            <ContentHeader>
+        {/* 프로필 이미지*/}
+        <ProfileImg
+          src={
+            item.profileImg === null || undefined ? defaultImg : item.profileImg
+          }
+        />
+        <div style={{ marginLeft: "10px", width: "100%" }}>
+          {/* 프로필 닉네임*/}
+          <ContentHeader>
+            <div style={{ display: "flex", gap: "15px" }}>
+              {/*유저의 이름 */}
               <ProfileName>{item.displayName}</ProfileName>
               {/* 등록된 시간*/}
               <Time> {item.createdAt}</Time>
-            </ContentHeader>
-            {/* 등록된 컨텐츠*/}
-            <Contnet ref={contentRef}> {item.content}</Contnet>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                width: "600px",
-
-                marginLeft: "-20px",
-              }}
-            >
-              <PostImg src={item?.img} />
             </div>
-          </div>
-        </HeaderBox>
+
+            {item.authId === authService.currentUser?.uid ? (
+              <div>
+                {/* 수정 아이콘*/}
+                <div>
+                  <div onClick={contentEditBtn}>
+                    <FontAwesomeIcon
+                      ref={editRef}
+                      icon={faPen}
+                      style={{
+                        // position: "relative",
+                        cursor: "pointer",
+                        fontSize: "20px",
+                      }}
+                    />
+                  </div>
+                  {/* 수정 확인 아이콘*/}
+                  <div onClick={contentSuccessBtn}>
+                    <FontAwesomeIcon
+                      ref={sucRef}
+                      icon={faCheck}
+                      style={{
+                        // position: "relative",
+                        cursor: "pointer",
+                        display: "none",
+                        fontSize: "20px",
+                      }}
+                    />
+                  </div>
+                  {/* 삭제 아이콘*/}
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      onClick={() => DeleteContent(item.id)}
+                      style={{
+                        // position: "relative",
+                        cursor: "pointer",
+                        marginTop: "5px",
+                        fontSize: "20px",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </ContentHeader>
+          {/* 등록된 컨텐츠*/}
+        </div>
+
         {/* 같은 id인경우에만 수정 삭제 아이콘 보이게하기 */}
-        {item.authId === authService.currentUser?.uid ? (
-          <div>
-            {/* 수정 아이콘*/}
-            <IconBox>
-              <IconSpan onClick={contentEditBtn}>
-                <FontAwesomeIcon
-                  ref={editRef}
-                  icon={faPen}
-                  style={{
-                    // position: "relative",
-                    cursor: "pointer",
-                    fontSize: "20px",
-                  }}
-                />
-              </IconSpan>
-              {/* 수정 확인 아이콘*/}
-              <IconSpan onClick={contentSuccessBtn}>
-                <FontAwesomeIcon
-                  ref={sucRef}
-                  icon={faCheck}
-                  style={{
-                    // position: "relative",
-                    cursor: "pointer",
-                    display: "none",
-                    fontSize: "20px",
-                  }}
-                />
-              </IconSpan>
-              {/* 삭제 아이콘*/}
-              <IconSpan>
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  onClick={() => DeleteContent(item.id)}
-                  style={{
-                    // position: "relative",
-                    cursor: "pointer",
-                    marginTop: "5px",
-                    fontSize: "20px",
-                  }}
-                />
-              </IconSpan>
-            </IconBox>
-          </div>
-        ) : (
-          ""
-        )}
       </Header>
       {/* 수정 인풋창*/}
       <ContetnsInput
@@ -159,14 +147,34 @@ function ContentsHeader({ item }: CommentItem) {
         value={contents}
         onChange={onChangeContent}
       />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginBottom: "20px",
+        }}
+      >
+        <Contnet ref={contentRef}>{item.content}</Contnet>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            // marginLeft: "-20px",
+          }}
+        >
+          <PostImg src={item?.img} />
+        </div>
+      </div>
     </>
   );
 }
 
 export default ContentsHeader;
 const PostImg = styled.img`
-  margin-top: 30px;
-  margin-bottom: 10px;
+  /* margin-top: 30px;
+  margin-bottom: 10px; */
   max-width: 80%;
   height: auto;
 `;
@@ -178,6 +186,8 @@ const IconSpan = styled.span`
 const ContentHeader = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 const ContetnsInput = styled.input``;
 
@@ -185,25 +195,54 @@ const ProfileImg = styled.img`
   width: 90px;
   height: 90px;
   border-radius: 50%;
+  @media screen and (max-width: 1920px) {
+    width: 90px;
+    height: 90px;
+  }
+  @media screen and (max-width: 790px) {
+    width: 80px;
+    height: 80px;
+  }
+  @media screen and (max-width: 490px) {
+    width: 90%;
+  }
 `;
 const ProfileName = styled.p`
   font-size: 25px;
   margin-left: 10px;
   font-weight: 600;
+  @media screen and (max-width: 1920px) {
+    font-size: 25px;
+  }
+  @media screen and (max-width: 790px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 490px) {
+    font-size: 15px;
+  }
 `;
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-between;
   width: 100%;
   height: 100%;
 `;
 
 const Time = styled.p`
-  margin-top: 5px;
+  margin-top: 10px;
   margin-left: 5px;
-  font-size: 15px;
+  font-size: 13px;
   color: gray;
+
+  @media screen and (max-width: 1920px) {
+    font-size: 13px;
+  }
+  @media screen and (max-width: 790px) {
+    font-size: 10px;
+  }
+  @media screen and (max-width: 490px) {
+    font-size: 10px;
+  }
 `;
 const IconBox = styled.div`
   display: flex;
@@ -216,9 +255,9 @@ const HeaderBox = styled.div`
 `;
 const Contnet = styled.p`
   font-weight: 400;
-  margin-top: 3px;
   font-size: 22px;
   margin: 10px;
-
-  overflow-wrap: break-word;
+  margin-bottom: 20px;
+  width: 100%;
+  word-break: break-all;
 `;

@@ -17,15 +17,26 @@ export default function Contents({ item }: any) {
     </>
   );
 }
-
+// 메인 전체부분?
 const ContentsLayout = styled.div`
-  width: 1500px;
-  height: 100%;
+  /* width: 1500px; */
+  height: 50%;
+  width: 100%;
   display: flex;
   justify-content: center;
   margin: 10px;
+  @media screen and (max-width: 1920px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 790px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 490px) {
+    width: 90%;
+  }
 `;
 
+//코멘트 부분
 const ContentsBox = styled.div`
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
@@ -35,6 +46,15 @@ const ContentsBox = styled.div`
   width: 50%;
   height: 100%;
   display: inline;
+  @media screen and (max-width: 1920px) {
+    width: 50%;
+  }
+  @media screen and (max-width: 790px) {
+    width: 80%;
+  }
+  @media screen and (max-width: 490px) {
+    width: 90%;
+  }
 `;
 
 const IconBox2 = styled.div`
