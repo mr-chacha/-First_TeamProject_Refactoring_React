@@ -212,6 +212,15 @@ export default Comment;
 const IconSpan = styled.span`
   cursor: pointer;
   margin: 5px 30px;
+  @media screen and (max-width: 1920px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 790px) {
+    font-size: 15px;
+  }
+  @media screen and (max-width: 490px) {
+    font-size: 13px;
+  }
 `;
 const CommentLayout = styled.div`
   width: 100%;
@@ -244,6 +253,15 @@ const CommentsInput = styled.input`
   margin-top: 5px;
   padding-left: 20px;
   cursor: pointer;
+  @media screen and (max-width: 1920px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 790px) {
+    font-size: 15px;
+  }
+  @media screen and (max-width: 490px) {
+    font-size: 13px;
+  }
   &:hover {
     background-color: #e3e3e3;
   }
