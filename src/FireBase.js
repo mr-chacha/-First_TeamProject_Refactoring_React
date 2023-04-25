@@ -13,12 +13,17 @@ const firebaseConfig = {
   appId: "1:216540277364:web:480a6c4c2e02d5970a3f21",
   measurementId: "G-CLMZ3BV191",
 };
+const firestoreSettings = {
+  experimentalAutoDetectLongPolling: true, // 압축을 자동으로 감지
+  ignoreUndefinedProperties: true, // undefined 속성 무시
+};
 
 // Initialize Firebase
 
 const app = initializeApp(firebaseConfig);
 export const apiKeys = firebaseConfig.apiKey;
 export const db = getFirestore(app);
+db.settings(firestoreSettings);
 export const authService = getAuth(app);
 export const storage = getStorage(app);
 export default app;
