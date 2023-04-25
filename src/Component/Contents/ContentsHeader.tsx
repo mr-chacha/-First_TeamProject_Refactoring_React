@@ -204,7 +204,8 @@ const ProfileImg = styled.img`
     height: 80px;
   }
   @media screen and (max-width: 490px) {
-    width: 90%;
+    width: 60px;
+    height: 60px;
   }
 `;
 const ProfileName = styled.p`
@@ -260,4 +261,13 @@ const Contnet = styled.p`
   margin-bottom: 20px;
   width: 100%;
   word-break: break-all;
+  @media screen and (max-width: 1920px) {
+    font-size: 22px;
+  }
+  @media screen and (max-width: 790px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 490px) {
+    font-size: 15px;
+  }
 `;
