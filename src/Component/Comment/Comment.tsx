@@ -18,7 +18,6 @@ import { formatDate } from "../../utils/Data";
 import Comments from "./Comments";
 
 import defaultImg from "../../image/img1.png";
-import { log } from "console";
 
 // item Type지정
 interface CommentItem {
